@@ -1,0 +1,7 @@
+books/
+env/
+*.pyc
+*.swp
+app/js/node_modules/
+app/js/dist/
+app/js/*.log
