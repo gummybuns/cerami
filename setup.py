@@ -1,8 +1,22 @@
-from setuptools import setup, find_packages
+import setuptools
 
-setup(name="dorm",
-      version="0.1.1",
-      description="Dynamodb ORM for python",
-      author="Zac Brown",
-      author_email="gummybuns@protonmail.com",
-      packages=find_packages())
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="dorm",
+    version="0.1.2",
+    author="Zac Brown",
+    author_email="gummybuns@protonmail.com",
+    description="A Dynamodb ORM",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    packages=setuptools.find_packages(),
+    url="https://github.com/gummybuns/dorm",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
+)
