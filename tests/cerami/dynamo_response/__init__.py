@@ -1,0 +1,4 @@
+from .dynamo_get_response_test import TestDynamoGetResponse
+from .dynamo_search_response_test import TestDynamoSearchResponse
+from .dynamo_response_test import TestDynamoResponse
+from .dynamo_save_response_test import TestDynamoSaveResponse
