@@ -1,5 +1,5 @@
 from .dynamo_search_interface import DynamoSearchInterface
-from ..dynamo_response import DynamoSaveResponse
+from ..response import SaveResponse
 from ..datatype.expression import (
     UpdateRemoveExpression,
     EqualityExpression)
@@ -12,7 +12,7 @@ from .search_attribute import (
 class DynamoUpdateInterface(DynamoSearchInterface):
     def execute(self):
         response = self.client.update_item(**self.build())
-        return DynamoSaveResponse(response, self.reconstructor)
+        return SaveResponse(response, self.reconstructor)
 
     def key(self, *expressions):
         for expression in expressions:

@@ -1,8 +1,8 @@
 from mock import Mock
 from tests.helpers.testbase import TestBase
-from cerami.dynamo_response import DynamoSearchResponse
+from cerami.response import SearchResponse
 
-class TestDynamoSearchResponse(TestBase):
+class TestSearchResponse(TestBase):
     def setUp(self):
         self.mocked_reconstructor = Mock()
         self.db_response = {
@@ -10,7 +10,7 @@ class TestDynamoSearchResponse(TestBase):
             'ScannedCount': 1,
             'LastEvaluatedKey': 'test',
             'Items': [{'fake': True}]}
-        self.resp = DynamoSearchResponse(
+        self.resp = SearchResponse(
             self.db_response,
             self.mocked_reconstructor)
 
@@ -31,5 +31,5 @@ class TestDynamoSearchResponse(TestBase):
     def test__init__keyerror(self):
         """it sets items to [] when it is missing"""
         del self.db_response['Items']
-        resp = DynamoSearchResponse(self.db_response, self.mocked_reconstructor)
+        resp = SearchResponse(self.db_response, self.mocked_reconstructor)
         assert resp._items == []

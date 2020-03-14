@@ -1,14 +1,14 @@
 from mock import Mock
 from tests.helpers.testbase import TestBase
-from cerami.dynamo_response import DynamoGetResponse
+from cerami.response import GetResponse
 
-class TestDynamoGetResponse(TestBase):
+class TestGetResponse(TestBase):
     def test__init__(self):
         """it calls reconstruct on item when the key is present"""
         mocked_reconstructor = Mock()
         mocked_reconstructor.reconstruct.return_value = 'mocked'
         db_response = {'Item': {'test': True}}
-        resp = DynamoGetResponse(db_response, mocked_reconstructor)
+        resp = GetResponse(db_response, mocked_reconstructor)
         assert resp.item == 'mocked'
         mocked_reconstructor.reconstruct.assert_called_with(db_response['Item'])
 
@@ -16,5 +16,5 @@ class TestDynamoGetResponse(TestBase):
         """it sets item to None when it is missing from _raw"""
         mocked_reconstructor = Mock()
         db_response = {}
-        resp = DynamoGetResponse(db_response, mocked_reconstructor)
+        resp = GetResponse(db_response, mocked_reconstructor)
         assert resp.item == None

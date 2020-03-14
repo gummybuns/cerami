@@ -1,14 +1,14 @@
 from mock import Mock
 from tests.helpers.testbase import TestBase
-from cerami.dynamo_response import DynamoSaveResponse
+from cerami.response import SaveResponse
 
-class TestDynamoSaveResponse(TestBase):
+class TestSaveResponse(TestBase):
     def test__init__(self):
         """it calls reconstructor with the raw Attributes"""
         mocked_reconstructor = Mock()
         mocked_reconstructor.reconstruct.return_value = 'mocked'
         db_response = {'Attributes': {'test': True}}
-        resp = DynamoSaveResponse(db_response, mocked_reconstructor)
+        resp = SaveResponse(db_response, mocked_reconstructor)
         assert resp.item == 'mocked'
         mocked_reconstructor.reconstruct.assert_called_with(
             db_response['Attributes'])
@@ -17,7 +17,7 @@ class TestDynamoSaveResponse(TestBase):
         """it sets item to know when missing Attributes"""
         mocked_reconstructor = Mock()
         db_response = {}
-        resp = DynamoSaveResponse(db_response, mocked_reconstructor)
+        resp = SaveResponse(db_response, mocked_reconstructor)
         assert resp.item == None
 
 

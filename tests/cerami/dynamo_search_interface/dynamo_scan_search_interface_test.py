@@ -1,6 +1,6 @@
 from mock import Mock, patch
 from tests.helpers.testbase import TestBase
-from cerami.dynamo_response import DynamoSearchResponse
+from cerami.response import SearchResponse
 from cerami.dynamo_search_interface import (
     DynamoScanSearchInterface)
 
@@ -22,4 +22,4 @@ class TestDynamoScanSearchInterface(TestBase):
             build.return_value = expected
             res = self.search_interface.execute()
             self.mocked_client.scan.assert_called_with(fake=True)
-            assert isinstance(res, DynamoSearchResponse)
+            assert isinstance(res, SearchResponse)

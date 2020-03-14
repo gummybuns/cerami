@@ -1,8 +1,8 @@
-from .dynamo_response import DynamoResponse
+from .response import Response
 
-class DynamoSearchResponse(DynamoResponse):
+class SearchResponse(Response):
     def __init__(self, response, reconstructor):
-        super(DynamoSearchResponse, self).__init__(response, reconstructor)
+        super(SearchResponse, self).__init__(response, reconstructor)
         self.count = self._raw['Count']
         self.scanned_count = self._raw['ScannedCount']
         self.last_evaluated_key = self._raw.get('LastEvaluatedKey')

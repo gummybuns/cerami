@@ -1,11 +1,11 @@
 from .dynamo_search_interface import DynamoSearchInterface
 from .search_attribute import DictAttribute
-from ..dynamo_response import DynamoDeleteResponse
+from ..response import DeleteResponse
 
 class DynamoDeleteInterface(DynamoSearchInterface):
     def execute(self):
         response = self.client.delete_item(**self.build())
-        return DynamoDeleteResponse(response, self.reconstructor)
+        return DeleteResponse(response, self.reconstructor)
 
     def key(self, *expressions):
         for expression in expressions:

@@ -1,8 +1,8 @@
-from .dynamo_response import DynamoResponse
+from .response import Response
 
-class DynamoGetResponse(DynamoResponse):
+class GetResponse(Response):
     def __init__(self, response, reconstructor):
-        super(DynamoGetResponse, self).__init__(response, reconstructor)
+        super(GetResponse, self).__init__(response, reconstructor)
         try:
             self.item = self.reconstructor.reconstruct(self._raw['Item'])
         except KeyError:

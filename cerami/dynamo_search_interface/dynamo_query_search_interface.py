@@ -1,6 +1,6 @@
 from copy import copy
 from .dynamo_search_interface import DynamoSearchInterface
-from ..dynamo_response import DynamoSearchResponse
+from ..response import SearchResponse
 from .search_attribute import (
     SearchAttribute,
     DictAttribute,
@@ -9,7 +9,7 @@ from .search_attribute import (
 class DynamoQuerySearchInterface(DynamoSearchInterface):
     def execute(self):
         response = self.client.query(**self.build())
-        return DynamoSearchResponse(response, self.reconstructor)
+        return SearchResponse(response, self.reconstructor)
 
     def key(self, *expressions):
         """return a new SearchInterface setup with query attributes
