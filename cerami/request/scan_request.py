@@ -1,7 +1,7 @@
-from .dynamo_search_interface import DynamoSearchInterface
+from .search_request import SearchRequest
 from ..response import SearchResponse
 
-class DynamoScanSearchInterface(DynamoSearchInterface):
+class ScanRequest(SearchRequest):
     def execute(self):
         response = self.client.scan(**self.build())
         return SearchResponse(response, self.reconstructor)

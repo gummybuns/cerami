@@ -3,11 +3,11 @@ from mock import patch, Mock
 from tests.helpers.testbase import TestBase
 from cerami.reconstructor import ModelReconstructor
 from cerami.data_attribute import DynamoDataAttribute
-from cerami.dynamo_search_interface import (
-    DynamoGetInterface,
-    DynamoUpdateInterface,
-    DynamoQuerySearchInterface,
-    DynamoScanSearchInterface)
+from cerami.request import (
+    GetRequest,
+    UpdateRequest,
+    QueryRequest,
+    ScanRequest)
 from cerami import Dynamo
 from cerami.model import Model
 
@@ -43,30 +43,30 @@ class TestModelClass(TestBase):
 
     def test_put_calls_put(self):
         """put should call PutInterface.execute with the data as an item"""
-        with patch('cerami.dynamo_search_interface.dynamo_put_interface.DynamoPutInterface.execute') as execute,\
-            patch('cerami.dynamo_search_interface.dynamo_put_interface.DynamoPutInterface.item') as item:
+        with patch('cerami.request.put_request.PutRequest.execute') as execute,\
+            patch('cerami.request.put_request.PutRequest.item') as item:
             self.model.put()
             item.assert_called_with(self.model.as_item())
             execute.assert_called()
 
     def test_has_scan_property(self):
-        """the class should have a DynamoScanSearchInterface"""
-        assert isinstance(self.DummyModel.scan, DynamoScanSearchInterface)
+        """the class should have a ScanRequest"""
+        assert isinstance(self.DummyModel.scan, ScanRequest)
         assert isinstance(self.DummyModel.scan.reconstructor, ModelReconstructor)
 
     def test_has_query_property(self):
-        """the class should have a DynamoQuerySearchInterface"""
-        assert isinstance(self.DummyModel.query, DynamoQuerySearchInterface)
+        """the class should have a QueryRequest"""
+        assert isinstance(self.DummyModel.query, QueryRequest)
         assert isinstance(self.DummyModel.query.reconstructor, ModelReconstructor)
 
     def test_has_update_property(self):
-        """the class should have a DynamoUpdateInterface"""
-        assert isinstance(self.DummyModel.update, DynamoUpdateInterface)
+        """the class should have an UpdateRequest"""
+        assert isinstance(self.DummyModel.update, UpdateRequest)
         assert isinstance(self.DummyModel.update.reconstructor, ModelReconstructor)
 
     def test_has_get_property(self):
-        """the class should have a DynamoGetInterface"""
-        assert isinstance(self.DummyModel.get, DynamoGetInterface)
+        """the class should have a GetRequest"""
+        assert isinstance(self.DummyModel.get, GetRequest)
         assert isinstance(self.DummyModel.get.reconstructor, ModelReconstructor)
 
     def test_init_sets_attributes(self):

@@ -1,8 +1,8 @@
-from .dynamo_search_interface import DynamoSearchInterface
+from .search_request import SearchRequest
 from .search_attribute import DictAttribute
 from ..response import DeleteResponse
 
-class DynamoDeleteInterface(DynamoSearchInterface):
+class DeleteRequest(SearchRequest):
     def execute(self):
         response = self.client.delete_item(**self.build())
         return DeleteResponse(response, self.reconstructor)

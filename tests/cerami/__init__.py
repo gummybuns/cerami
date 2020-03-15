@@ -1,5 +1,5 @@
 from .model_test import TestModelClass
-from .dynamo_search_interface import *
+from .request import *
 from .datatype import *
 from .response import *
 from .reconstructor import *

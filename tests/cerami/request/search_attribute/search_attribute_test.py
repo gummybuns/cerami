@@ -1,5 +1,5 @@
 from tests.helpers.testbase import TestBase
-from cerami.dynamo_search_interface.search_attribute import SearchAttribute
+from cerami.request.search_attribute import SearchAttribute
 
 class TestSearchAttribute(TestBase):
     def setUp(self):

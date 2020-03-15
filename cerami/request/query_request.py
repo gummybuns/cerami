@@ -1,12 +1,11 @@
-from copy import copy
-from .dynamo_search_interface import DynamoSearchInterface
+from .search_request import SearchRequest
 from ..response import SearchResponse
 from .search_attribute import (
     SearchAttribute,
     DictAttribute,
     QueryExpressionAttribute)
 
-class DynamoQuerySearchInterface(DynamoSearchInterface):
+class QueryRequest(SearchRequest):
     def execute(self):
         response = self.client.query(**self.build())
         return SearchResponse(response, self.reconstructor)

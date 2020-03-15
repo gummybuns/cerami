@@ -1,5 +1,5 @@
 from tests.helpers.testbase import TestBase
-from cerami.dynamo_search_interface.search_attribute import (
+from cerami.request.search_attribute import (
     UpdateExpressionAttribute,
     UpdateAction)
 from cerami.model import Model

@@ -7,7 +7,7 @@ from .search_attribute import (
 
 # TODO: break this into classes. Update shouldnt need filter
 # and Query should need return_values
-class DynamoSearchInterface(object):
+class SearchRequest(object):
     def __init__(self, client, tablename="", search_attributes={}, reconstructor=None):
         self.search_attributes = copy(search_attributes)
         self.client = client

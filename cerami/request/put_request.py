@@ -1,8 +1,8 @@
-from .dynamo_search_interface import DynamoSearchInterface
+from .search_request import SearchRequest
 from .search_attribute import DictAttribute
 from ..response import SaveResponse
 
-class DynamoPutInterface(DynamoSearchInterface):
+class PutRequest(SearchRequest):
     def execute(self):
         response = self.client.put_item(**self.build())
         return SaveResponse(response, self.reconstructor)

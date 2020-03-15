@@ -1,9 +1,9 @@
-from .dynamo_search_interface import DynamoSearchInterface
+from .search_request import SearchRequest
 from .search_attribute import DictAttribute
 from ..response import GetResponse
 
 
-class DynamoGetInterface(DynamoSearchInterface):
+class GetRequest(SearchRequest):
     def execute(self):
         """TODO: need to validate all primary key / saerch keys are present"""
         response = self.client.get_item(**self.build())

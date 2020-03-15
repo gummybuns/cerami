@@ -1,14 +1,14 @@
 from .datatype import DynamoDataType
 from .data_attribute import DynamoDataAttribute
 from .reconstructor import ModelReconstructor
-from .dynamo_search_interface.return_values import ALL_NEW
-from .dynamo_search_interface import (
-    DynamoGetInterface,
-    DynamoScanSearchInterface,
-    DynamoPutInterface,
-    DynamoUpdateInterface,
-    DynamoDeleteInterface,
-    DynamoQuerySearchInterface)
+from .request.return_values import ALL_NEW
+from .request import (
+    GetRequest,
+    ScanRequest,
+    PutRequest,
+    UpdateRequest,
+    DeleteRequest,
+    QueryRequest)
 
 
 class ModelMeta(type):
@@ -33,35 +33,35 @@ class ModelMeta(type):
 
     @property
     def get(cls):
-        return DynamoGetInterface(
+        return GetRequest(
             cls.client,
             tablename=cls.__tablename__,
             reconstructor=ModelReconstructor(cls))
 
     @property
     def scan(cls):
-        return DynamoScanSearchInterface(
+        return ScanRequest(
             cls.client,
             tablename=cls.__tablename__,
             reconstructor=ModelReconstructor(cls))
 
     @property
     def query(cls, *expressions):
-        return DynamoQuerySearchInterface(
+        return QueryRequest(
             cls.client,
             tablename=cls.__tablename__,
             reconstructor=ModelReconstructor(cls))
 
     @property
     def put(cls):
-        return DynamoPutInterface(
+        return PutRequest(
             cls.client,
             tablename=cls.__tablename__,
             reconstructor=ModelReconstructor(cls))
 
     @property
     def update(cls):
-        update = DynamoUpdateInterface(
+        update = UpdateRequest(
             cls.client,
             tablename=cls.__tablename__,
             reconstructor=ModelReconstructor(cls))
@@ -70,7 +70,7 @@ class ModelMeta(type):
 
     @property
     def delete(cls):
-        return DynamoDeleteInterface(
+        return DeleteRequest(
             cls.client,
             tablename=cls.__tablename__,
             reconstructor=ModelReconstructor(cls))

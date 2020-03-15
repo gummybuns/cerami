@@ -1,4 +1,4 @@
-from .dynamo_search_interface import DynamoSearchInterface
+from .search_request import SearchRequest
 from ..response import SaveResponse
 from ..datatype.expression import (
     UpdateRemoveExpression,
@@ -9,7 +9,7 @@ from .search_attribute import (
     UpdateExpressionAttribute)
 
 
-class DynamoUpdateInterface(DynamoSearchInterface):
+class UpdateRequest(SearchRequest):
     def execute(self):
         response = self.client.update_item(**self.build())
         return SaveResponse(response, self.reconstructor)
