@@ -1,16 +1,16 @@
-## Using dorm
+## Quickstart
 ```
 # Setup the db singleton
 import boto3
-from dorm import Dynamo
+from cerami import Cerami
 dynamodb = boto3.client('dynamodb', endpoint_url="http://localhost:8000")
-db = Dynamo(dynamodb)
+db = Cerami(dynamodb)
 
 
 # create classes
 import uuid
-from dorm.datatype import String, Set, Datetime
-from dorm.decorators import primary_key
+from cerami.datatype import String, Set, Datetime
+from cerami.decorators import primary_key
 
 @primary_key('_id', 'title')
 class Book(db.Model):
@@ -29,13 +29,13 @@ class Book(db.Model):
 
 # Query
 Book.scan\
-    .filter(Book.Schema.title.eq("Zac's First Book"))\
-    .filter(Book.Schema.book_producer.eq("Zac's Producer"))\
+    .filter(Book.title.eq("Zac's First Book"))\
+    .filter(Book.comments.eq("Awesome"))\
     .execute()
 
 Book.query\
-    .key_condition(Book.Schema._id.eq("XXX"))\
-    .filter(Book.Schema.book_producer.eq("YYY"))\
+    .key_condition(Book._id.eq("XXX"))\
+    .filter(Book.comments.eq("YYY"))\
     .execute()
 
 Book.get\

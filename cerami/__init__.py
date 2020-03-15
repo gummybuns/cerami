@@ -1,6 +1,6 @@
 from .model import Model
 
-class Dynamo(object):
+class Cerami(object):
     def __init__(self, client):
         self.client = client
 
