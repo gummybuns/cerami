@@ -4,6 +4,7 @@ from tests.helpers.testbase import TestBase
 from cerami.model import Model
 from cerami.datatype.expression import (
     EqualityExpression,
+    RawExpression,
     ListAppendExpression,
     ArithmeticExpression)
 from cerami.datatype.mapper import (
@@ -352,7 +353,7 @@ class TestDynamoDataType(TestBase):
         assert res.expression == "IN"
         assert res.value == "(1, 2, 3)"
 
-    def test_in_one_value:
+    def test_in_one_value(self):
         """it excludes the trailing comma"""
         res = self.dt.in_(1)
         assert res.value == "(1)"

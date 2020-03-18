@@ -1,6 +1,7 @@
 import dateutil.parser
 import bson
 import numbers
+import re
 from copy import copy
 from datetime import datetime
 from bson.objectid import InvalidId
@@ -87,7 +88,8 @@ class DynamoDataType(object):
         return EqualityExpression("<=", self, value)
 
     def in_(self, *values):
-        return RawExpression("IN", self, str(values).rstrip(','))
+        value = re.sub(r"(\,\))$", ')', str(values))
+        return RawExpression("IN", self, value)
 
     def between(self, min_val, max_val):
         value = "{} AND {}".format(min_val, max_val)
