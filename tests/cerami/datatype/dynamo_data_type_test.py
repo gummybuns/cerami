@@ -348,12 +348,17 @@ class TestDynamoDataType(TestBase):
 
     def test_in_(self):
         res = self.dt.in_(1,2,3)
-        assert isinstance(res, EqualityExpression)
+        assert isinstance(res, RawExpression)
         assert res.expression == "IN"
         assert res.value == "(1, 2, 3)"
 
+    def test_in_one_value:
+        """it excludes the trailing comma"""
+        res = self.dt.in_(1)
+        assert res.value == "(1)"
+
     def test_between(self):
         res = self.dt.between(10, 20)
-        assert isinstance(res, EqualityExpression)
+        assert isinstance(res, RawExpression)
         assert res.expression == "BETWEEN"
         assert res.value == "10 AND 20"
