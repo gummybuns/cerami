@@ -34,7 +34,7 @@ Book.scan\
     .execute()
 
 Book.query\
-    .key_condition(Book._id.eq("XXX"))\
+    .key(Book._id.eq("XXX"))\
     .filter(Book.comments.eq("YYY"))\
     .execute()
 
