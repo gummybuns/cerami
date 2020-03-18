@@ -71,7 +71,7 @@ class DynamoDataType(object):
         return EqualityExpression("=", self, value)
 
     def neq(self, value):
-        return EqualityExpression("!=", self, value)
+        return EqualityExpression("<>", self, value)
 
     def gt(self, value):
         return EqualityExpression(">", self, value)
@@ -84,6 +84,13 @@ class DynamoDataType(object):
 
     def lte(self, value):
         return EqualityExpression("<=", self, value)
+
+    def in_(self, *values):
+        return EqualityExpression("IN", self, str(values))
+
+    def between(self, min_val, max_val):
+        value = "{} AND {}".format(min_val, max_val)
+        return EqualityExpression("BETWEEN", self, value)
 
     def set_column_name(self, val):
         self.column_name = val

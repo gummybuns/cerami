@@ -324,7 +324,7 @@ class TestDynamoDataType(TestBase):
     def test_neq(self):
         res = self.dt.neq(1)
         assert isinstance(res, EqualityExpression)
-        assert res.expression == "!="
+        assert res.expression == "<>"
 
     def test_gt(self):
         res = self.dt.gt(1)
@@ -345,3 +345,15 @@ class TestDynamoDataType(TestBase):
         res = self.dt.lte(1)
         assert isinstance(res, EqualityExpression)
         assert res.expression == "<="
+
+    def test_in_(self):
+        res = self.dt.in_(1,2,3)
+        assert isinstance(res, EqualityExpression)
+        assert res.expression == "IN"
+        assert res.value == "(1, 2, 3)"
+
+    def test_between(self):
+        res = self.dt.between(10, 20)
+        assert isinstance(res, EqualityExpression)
+        assert res.expression == "BETWEEN"
+        assert res.value == "10 AND 20"

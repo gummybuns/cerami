@@ -8,7 +8,7 @@ from cerami.request import (
     UpdateRequest,
     QueryRequest,
     ScanRequest)
-from cerami import Dynamo
+from cerami import Cerami
 from cerami.model import Model
 
 
