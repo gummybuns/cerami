@@ -15,7 +15,7 @@ from .mapper import (
     SetMapperDecorator)
 from .expression import (
     BaseExpression,
-    RawExpression,
+    InExpression,
     ArithmeticExpression,
     ListAppendExpression,
     EqualityExpression)
@@ -88,12 +88,7 @@ class DynamoDataType(object):
         return EqualityExpression("<=", self, value)
 
     def in_(self, *values):
-        value = re.sub(r"(\,\))$", ')', str(values))
-        return RawExpression("IN", self, value)
-
-    def between(self, min_val, max_val):
-        value = "{} AND {}".format(min_val, max_val)
-        return RawExpression("BETWEEN", self, value)
+        return InExpression(self, values)
 
     def set_column_name(self, val):
         self.column_name = val

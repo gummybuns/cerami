@@ -4,7 +4,7 @@ from tests.helpers.testbase import TestBase
 from cerami.model import Model
 from cerami.datatype.expression import (
     EqualityExpression,
-    RawExpression,
+    InExpression,
     ListAppendExpression,
     ArithmeticExpression)
 from cerami.datatype.mapper import (
@@ -316,6 +316,8 @@ class TestDynamoDataType(TestBase):
     def setUp(self):
         super(TestDynamoDataType, self).setUp()
         self.dt = DynamoDataType(column_name="test")
+        self.dt.mapper = StringMapper(self.dt)
+        self.dt.condition_type = "S"
 
     def test_eq(self):
         res = self.dt.eq(1)
@@ -348,18 +350,5 @@ class TestDynamoDataType(TestBase):
         assert res.expression == "<="
 
     def test_in_(self):
-        res = self.dt.in_(1,2,3)
-        assert isinstance(res, RawExpression)
-        assert res.expression == "IN"
-        assert res.value == "(1, 2, 3)"
-
-    def test_in_one_value(self):
-        """it excludes the trailing comma"""
-        res = self.dt.in_(1)
-        assert res.value == "(1)"
-
-    def test_between(self):
-        res = self.dt.between(10, 20)
-        assert isinstance(res, RawExpression)
-        assert res.expression == "BETWEEN"
-        assert res.value == "10 AND 20"
+        res = self.dt.in_('1','2','3')
+        assert isinstance(res, InExpression)
