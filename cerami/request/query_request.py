@@ -10,6 +10,11 @@ class QueryRequest(SearchRequest):
         response = self.client.query(**self.build())
         return SearchResponse(response, self.reconstructor)
 
+    def index(self, index_name):
+        """add IndexName to the request"""
+        self.add_attribute(SearchAttribute, 'IndexName', index_name)
+        return self
+
     def key(self, *expressions):
         """return a new SearchInterface setup with query attributes
         KeyConditionExpression, ExpressionAttributeNames,

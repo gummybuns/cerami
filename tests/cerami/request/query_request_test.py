@@ -2,6 +2,7 @@ from mock import Mock, patch
 from tests.helpers.testbase import TestBase
 from cerami.response import SearchResponse
 from cerami.request import QueryRequest
+from cerami.request.search_attribute import SearchAttribute
 
 class TestQueryRequest(TestBase):
     def setUp(self):
@@ -9,6 +10,15 @@ class TestQueryRequest(TestBase):
         self.request  = QueryRequest(
             tablename="test",
             client=self.mocked_client)
+
+    def test_index(self):
+        """it adds the IndexName to the request"""
+        self.request.add_attribute = Mock()
+        self.request.index('test-index')
+        self.request.add_attribute.assert_called_with(
+            SearchAttribute,
+            'IndexName',
+            'test-index')
 
     def test_execute(self):
         """it calls query with the build
