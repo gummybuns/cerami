@@ -1,8 +1,8 @@
-from .search_request import SearchRequest
+from .mixins import BaseRequest
 from .search_attribute import DictAttribute
 from ..response import SaveResponse
 
-class PutRequest(SearchRequest):
+class PutRequest(BaseRequest):
     def execute(self):
         response = self.client.put_item(**self.build())
         return SaveResponse(response, self.reconstructor)

@@ -1,4 +1,4 @@
-from .search_request import SearchRequest
+from .mixins import BaseRequest, Keyable, Returnable
 from ..response import SaveResponse
 from ..datatype.expression import (
     UpdateRemoveExpression,
@@ -9,17 +9,10 @@ from .search_attribute import (
     UpdateExpressionAttribute)
 
 
-class UpdateRequest(SearchRequest):
+class UpdateRequest(BaseRequest, Keyable, Returnable):
     def execute(self):
         response = self.client.update_item(**self.build())
         return SaveResponse(response, self.reconstructor)
-
-    def key(self, *expressions):
-        for expression in expressions:
-            key_dict = {}
-            key_dict[expression.datatype.column_name] = expression.attribute_map()
-            self.add_attribute(DictAttribute, 'Key', key_dict)
-        return self
 
     def set(self, *expressions):
         for expression in expressions:

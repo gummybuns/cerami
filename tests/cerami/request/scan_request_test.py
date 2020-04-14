@@ -13,7 +13,7 @@ class TestScanRequest(TestBase):
     def test_execute(self):
         """it calls scan with the build
         it returns a SearchResponse"""
-        with patch("cerami.request.SearchRequest.build") as build:
+        with patch("cerami.request.mixins.BaseRequest.build") as build:
             expected = {"fake": True}
             self.mocked_client.scan.return_value = {
                 'Count': 0,

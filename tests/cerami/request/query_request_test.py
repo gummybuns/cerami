@@ -1,8 +1,17 @@
-from mock import Mock, patch
+from mock import Mock, patch, call
 from tests.helpers.testbase import TestBase
+from cerami.model import Model
+from cerami.datatype import String
 from cerami.response import SearchResponse
 from cerami.request import QueryRequest
-from cerami.request.search_attribute import SearchAttribute
+from cerami.request.search_attribute import (
+    SearchAttribute,
+    DictAttribute,
+    QueryExpressionAttribute)
+from cerami.request.mixins import Filterable, Keyable
+
+class TestModel(Model):
+    test = String()
 
 class TestQueryRequest(TestBase):
     def setUp(self):
@@ -10,6 +19,14 @@ class TestQueryRequest(TestBase):
         self.request  = QueryRequest(
             tablename="test",
             client=self.mocked_client)
+
+    def test_is_filterable(self):
+        """it is filterable"""
+        assert isinstance(self.request, Filterable)
+
+    def test_is_keyable(self):
+        """it is keyable"""
+        assert isinstance(self.request, Keyable)
 
     def test_index(self):
         """it adds the IndexName to the request"""
@@ -23,7 +40,7 @@ class TestQueryRequest(TestBase):
     def test_execute(self):
         """it calls query with the build
         it returns a SearchResponse"""
-        with patch("cerami.request.search_request.SearchRequest.build") as build:
+        with patch("cerami.request.mixins.BaseRequest.build") as build:
             expected = {"fake": True}
             self.mocked_client.query.return_value = {
                 'Count': 0,
@@ -33,3 +50,22 @@ class TestQueryRequest(TestBase):
             self.mocked_client.query.assert_called_with(fake=True)
             assert isinstance(res, SearchResponse)
 
+    def test_key(self):
+        self.request.add_attribute = Mock()
+        expression = TestModel.test.eq('123')
+        names = {}
+        names[expression.expression_attribute_name] = 'test'
+
+        self.request.key(expression)
+        calls = [
+            call(QueryExpressionAttribute,
+                 'KeyConditionExpression',
+                 expression),
+            call(DictAttribute,
+                 'ExpressionAttributeNames',
+                 names),
+            call(DictAttribute,
+                 'ExpressionAttributeValues',
+                 expression.value_dict())
+        ]
+        self.request.add_attribute.assert_has_calls(calls)

@@ -65,7 +65,7 @@ class ModelMeta(type):
             cls.client,
             tablename=cls.__tablename__,
             reconstructor=ModelReconstructor(cls))
-        return update.return_values(ALL_NEW)
+        return update.returns(ALL_NEW)
 
 
     @property

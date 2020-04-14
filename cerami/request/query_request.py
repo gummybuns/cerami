@@ -1,11 +1,11 @@
-from .search_request import SearchRequest
+from .mixins import BaseRequest, Filterable, Keyable
 from ..response import SearchResponse
 from .search_attribute import (
     SearchAttribute,
     DictAttribute,
     QueryExpressionAttribute)
 
-class QueryRequest(SearchRequest):
+class QueryRequest(BaseRequest, Filterable, Keyable):
     def execute(self):
         response = self.client.query(**self.build())
         return SearchResponse(response, self.reconstructor)
@@ -20,18 +20,22 @@ class QueryRequest(SearchRequest):
         KeyConditionExpression, ExpressionAttributeNames,
         ExpressionAttributeValues are all required to query properly
 
-        *expressions are a list of BaseExpressions
+        This completely overrides the implementation of Keyable
+        but is defined as such for a simpler interface to remember.
         """
         for expression in expressions:
             names = {}
             names[expression.expression_attribute_name] = expression.datatype.column_name
-            self.add_attribute(QueryExpressionAttribute,
-                              'KeyConditionExpression',
-                              expression)
-            self.add_attribute(DictAttribute,
-                              'ExpressionAttributeNames',
-                              names)
-            self.add_attribute(DictAttribute,
-                              'ExpressionAttributeValues',
-                              expression.value_dict())
+            self.add_attribute(
+                QueryExpressionAttribute,
+                'KeyConditionExpression',
+                expression)
+            self.add_attribute(
+                DictAttribute,
+                'ExpressionAttributeNames',
+                names)
+            self.add_attribute(
+                DictAttribute,
+                'ExpressionAttributeValues',
+                expression.value_dict())
         return self
