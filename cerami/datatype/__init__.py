@@ -4,7 +4,6 @@ import numbers
 import re
 from copy import copy
 from datetime import datetime
-from bson.objectid import InvalidId
 from .mapper import (
     StringMapper,
     ModelMapper,
