@@ -13,6 +13,7 @@ from cerami.datatype.mapper import (
     ModelMapper,
     DictMapper,
     ListMapper,
+    NumberMapper,
     SetMapperDecorator)
 from cerami.datatype import (
     DynamoDataType,
@@ -46,7 +47,7 @@ class TestBaseNumber(TestBase):
         assert self.dt.condition_type == "N"
 
     def test_mapper(self):
-        assert isinstance(self.dt.mapper, StringMapper)
+        assert isinstance(self.dt.mapper, NumberMapper)
 
     def test_add(self):
         """it returns an ArithmeticExpression"""

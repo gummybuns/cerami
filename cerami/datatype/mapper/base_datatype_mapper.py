@@ -12,7 +12,7 @@ class BaseDatatypeMapper(object):
         res[self.datatype.condition_type] = self.resolve(value)
         return res
 
-    def resolve(value):
+    def resolve(self, value):
         """returns the value resolved for dynamodb
         that is to say it is how the database expects
         it to be passed for all of the operations
