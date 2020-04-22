@@ -3,19 +3,11 @@ from .base_datatype import DynamoDataType
 from .mapper import ModelMapper
 
 class ModelMap(DynamoDataType):
-    def __init__(self, model_cls, default=None, **kwargs):
-        super(ModelMap, self).__init__(**kwargs)
+    def __init__(self, model_cls, mapper_cls=ModelMapper, **kwargs):
+        super(ModelMap, self).__init__(condition_type="M", mapper_cls=mapper_cls, **kwargs)
         self.model_cls = model_cls
         for column in self.model_cls._columns:
             setattr(self, column.column_name, copy(column))
-
-    @property
-    def condition_type(self):
-        return "M"
-
-    @property
-    def mapper(self):
-        return ModelMapper(self)
 
     def build(self, val):
         val = val or self._get_default()

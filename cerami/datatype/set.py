@@ -2,17 +2,11 @@ from .base_datatype import DynamoDataType
 from .mapper import SetMapperDecorator
 
 class Set(DynamoDataType):
-    def __init__(self, datatype, default=None, **kwargs):
+    def __init__(self, datatype, **kwargs):
         super(Set, self).__init__(**kwargs)
         self.datatype = datatype
-
-    @property
-    def condition_type(self):
-        return self.datatype.condition_type + "S"
-
-    @property
-    def mapper(self):
-        return SetMapperDecorator(self.datatype.mapper)
+        self.mapper = SetMapperDecorator(self.datatype.mapper)
+        self.condition_type = self.datatype.condition_type + "S"
 
     def build(self, val):
         if val == None:

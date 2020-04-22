@@ -5,10 +5,7 @@ class UniformList(List):
     def __init__(self, datatype, **kwargs):
         super(UniformList, self).__init__(**kwargs)
         self.datatype = datatype
-
-    @property
-    def mapper(self):
-        return UniformListMapper(self.datatype.mapper)
+        self.mapper = UniformListMapper(self.datatype.mapper)
 
     def build(self, val=None):
         if val == None:

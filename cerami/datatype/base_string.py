@@ -2,11 +2,5 @@ from .base_datatype import DynamoDataType
 from .mapper import StringMapper
 
 class BaseString(DynamoDataType):
-    """The base String Datatype"""
-    @property
-    def condition_type(self):
-        return "S"
-
-    @property
-    def mapper(self):
-        return StringMapper(self)
+    def __init__(self, mapper_cls=StringMapper, **kwargs):
+        super(BaseString, self).__init__(mapper_cls=mapper_cls, condition_type="S", **kwargs)

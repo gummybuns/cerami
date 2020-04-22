@@ -7,9 +7,16 @@ class DynamoDataType(object):
     class variable defined. It is used for querying to
     determine what type of attribute is being searched upon
     """
-    def __init__(self, default=None, column_name=""):
+    def __init__(
+            self,
+            default=None,
+            column_name="",
+            condition_type="",
+            mapper_cls=None):
         self.default = default
         self.set_column_name(column_name)
+        self.mapper = mapper_cls(self) if mapper_cls else None
+        self.condition_type = condition_type
 
     def eq(self, value):
         return EqualityExpression("=", self, value)

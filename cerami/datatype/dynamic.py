@@ -50,18 +50,15 @@ class DefaultParseGuesser(object):
 
 
 class Map(DynamoDataType):
-    def __init__(self, map_guesser=None, parse_guesser=None, default=None, **kwargs):
-        super(Map, self).__init__(**kwargs)
+    def __init__(
+            self,
+            map_guesser=None,
+            parse_guesser=None,
+            **kwargs):
+        super(Map, self).__init__(condition_type="M", **kwargs)
         self.map_guesser = map_guesser or DefaultMapGuesser()
         self.parse_guesser = parse_guesser or DefaultParseGuesser()
-
-    @property
-    def condition_type(self):
-        return "M"
-
-    @property
-    def mapper(self):
-        return DictMapper(self, self.map_guesser, self.parse_guesser)
+        self.mapper = DictMapper(self, self.map_guesser, self.parse_guesser)
 
     def key(self, datatype, key):
         column_name = self.column_name + "." + key
@@ -88,18 +85,15 @@ class Map(DynamoDataType):
 
 
 class List(DynamoDataType):
-    def __init__(self, map_guesser=None, parse_guesser=None, default=None, **kwargs):
-        super(List, self).__init__(**kwargs)
+    def __init__(
+            self,
+            map_guesser=None,
+            parse_guesser=None,
+            **kwargs):
+        super(List, self).__init__(condition_type="L", **kwargs)
         self.map_guesser = map_guesser or DefaultMapGuesser()
         self.parse_guesser = parse_guesser or DefaultParseGuesser()
-
-    @property
-    def condition_type(self):
-        return "L"
-
-    @property
-    def mapper(self):
-        return ListMapper(self, self.map_guesser, self.parse_guesser)
+        self.mapper = ListMapper(self, self.map_guesser, self.parse_guesser)
 
     def append(self, array):
         if not isinstance(array, list):
