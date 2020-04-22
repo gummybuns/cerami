@@ -11,6 +11,7 @@ from .mapper import (
     ListMapper,
     UniformListMapper,
     ByteMapper,
+    BaseNumber,
     SetMapperDecorator)
 from .expression import (
     BaseExpression,
@@ -124,7 +125,7 @@ class BaseNumber(DynamoDataType):
 
     @property
     def mapper(self):
-        return StringMapper(self)
+        return NumberMapper(self)
 
 class ByteBuffer(DynamoDataType):
     @property
@@ -314,7 +315,6 @@ class UniformList(List):
 
     @property
     def mapper(self):
-        # TODO - create this class
         return UniformListMapper(self.datatype.mapper)
 
     def build(self, val=None):
@@ -360,16 +360,6 @@ class Set(DynamoDataType):
         return [self.datatype.build(i) for i in val]
 
     def as_item(self, val):
-        """another thing i dont like
-        i am essentially recreating the entire list when
-        as_item is called, so if it is a long list of strings
-        this is a complete waste of time. Pretty stupid...
-
-        but it is really powerful when nested objects come into
-        play. so probably the simplest thing would be to have
-        some way to check if the datatype is a literal like a 
-        string or number and if so just return the value
-        """
         return [self.datatype.as_item(i) for i in val]
 
     def as_dict(self, val):

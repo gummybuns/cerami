@@ -6,3 +6,4 @@ from .dict_mapper import DictMapper
 from .list_mapper import ListMapper
 from .uniform_list_mapper import UniformListMapper
 from .byte_mapper import ByteMapper
+from .number_mapper import NumberMapper
