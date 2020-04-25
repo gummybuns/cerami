@@ -1,4 +1,4 @@
-from mock import patch
+from mock import patch, Mock
 from tests.helpers.testbase import TestBase
 from cerami.datatype import String
 from cerami.datatype.mapper import BaseDatatypeMapper
@@ -18,7 +18,16 @@ class TestBaseDatatypeMapper(TestBase):
             res = self.mapper.map('test')
             assert res == {"S": "mocked"}
 
-    def test_pasrse(self):
-        """it returns the value for the key corresponding to the condition_type"""
-        mapped_dict = {'S': 1}
-        assert self.mapper.parse(mapped_dict) == 1
+    def test_reconstruct_null(self):
+        """it returns None when mapped_dict is NULL"""
+        assert self.mapper.reconstruct({'NULL': True}) == None
+
+    def test_reconstruct_calls_parse(self):
+        """calls parse when the value is not NULL"""
+        self.mapper.parse = Mock()
+        self.mapper.reconstruct({'S': 'test'})
+        self.mapper.parse.assert_called_with('test')
+
+    def test_parse(self):
+        """parse returns the value"""
+        assert self.mapper.parse('test') == 'test'

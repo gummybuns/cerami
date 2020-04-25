@@ -76,16 +76,6 @@ class TestString(TestBase):
         """it returns the value as a string"""
         assert self.dt.as_item(1) == "1"
 
-    def test_build_returns_val(self):
-        """it returns the value when it is present"""
-        assert self.dt.build("test") == "test"
-
-    def test_build_calls_get_default(self):
-        """it calls _get_default when value is falsey"""
-        self.dt._get_default = Mock()
-        self.dt.build(None)
-        self.dt._get_default.assert_called()
-
 class TestByteBuffer(TestBase):
     def setUp(self):
         super(TestByteBuffer, self).setUp()
@@ -102,17 +92,6 @@ class TestByteBuffer(TestBase):
 
     def test_as_dict(self):
         assert self.dt.as_dict(b'1') == b'1'
-
-    def test_build_returns_val(self):
-        """it returns the value when it is a byte"""
-        val = b'hello'
-        assert self.dt.build(val) == val
-
-    def test_build_encodes(self):
-        """it encodes the value when it is not a byte"""
-        val = 'hello'
-        expected = val.encode('utf-8')
-        assert self.dt.build(val) == expected
 
 class TestDatetime(TestBase):
     def setUp(self):
@@ -133,22 +112,6 @@ class TestDatetime(TestBase):
         val.isoformat.assert_called()
         assert res == "fake isostring"
 
-    def test_build_val_datetime(self):
-        """it returns the passed value when it is a datetime"""
-        now = datetime.now()
-        assert self.dt.build(now) == now
-
-    def test_build_calls_get_default(self):
-        """it calls _get_default when value is falsey"""
-        self.dt._get_default = Mock(return_value=None)
-        self.dt.build(None)
-        self.dt._get_default.assert_called()
-
-    def test_build_parses_datetime_string(self):
-        """it parses the datetime string"""
-        now_str = datetime.now().isoformat()
-        assert isinstance(self.dt.build(now_str), datetime)
-
 class TestMap(TestBase):
     def setUp(self):
         super(TestMap, self).setUp()
@@ -168,11 +131,6 @@ class TestMap(TestBase):
     def test_mapper(self):
         """it is an instance of DictMapper"""
         assert isinstance(self.dt.mapper, DictMapper)
-
-    def test_build(self):
-        """it returns the val when it is a dict"""
-        val = {'test': 1}
-        assert self.dt.build(val) == val
 
     def test_as_dict(self):
         """it returns the val when it is a dict"""
@@ -226,16 +184,6 @@ class TestList(TestBase):
         assert isinstance(res, String)
         assert res._index == 0
 
-    def test_build(self):
-        """it returns the val passed when it is a list"""
-        val = [1,2,3]
-        assert self.dt.build(val) == val
-
-    def test_as_dict(self):
-        """it returns the val passed when it is a list"""
-        val = [1,2,3]
-        assert self.dt.build(val) == val
-
     def test_as_item(self):
         """it reutns the mapped value when it is a list"""
         with patch('cerami.datatype.mapper.ListMapper.map') as lm:
@@ -265,16 +213,6 @@ class TestModelMap(TestBase):
 
     def test_mapper(self):
         assert isinstance(self.dt.mapper, ModelMapper)
-
-    def test_build_dict(self):
-        """it returns a model_cls instance when val is a dict"""
-        data = {'test1': 'test', 'test2': 1}
-        assert isinstance(self.dt.build(data), self.TestModel)
-
-    def test_build_model(self):
-        """it returns the value when it is already a model_cls instance"""
-        model = self.TestModel()
-        assert self.dt.build(model) == model
 
     def test_as_dict(self):
         """it calls the passed value as_dict method"""

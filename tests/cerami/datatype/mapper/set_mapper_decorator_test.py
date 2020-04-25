@@ -32,5 +32,5 @@ class TestSetMapperDecorator(TestBase):
 
     def test_parse(self):
         """assigns the value directly from mapped_dict"""
-        mapped_dict = {'SS': ['zac', 'test']}
-        assert self.decorator.parse(mapped_dict) == ['zac', 'test']
+        value = ['zac', 'test']
+        assert self.decorator.parse(value) == ['zac', 'test']

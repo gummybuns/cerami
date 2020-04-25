@@ -38,8 +38,8 @@ class TestModelMapper(TestBase):
 
     def test_parse(self):
         """it returns a model based on the passed dict"""
-        mapped_dict = {'M': {'test1': {'S': 'hello'}}}
-        res = self.mapper.parse(mapped_dict)
+        value = {'test1': {'S': 'hello'}}
+        res = self.mapper.parse(value)
         assert isinstance(res, self.TestModel)
         assert res.test1 == 'hello'
         assert res.test2 == None

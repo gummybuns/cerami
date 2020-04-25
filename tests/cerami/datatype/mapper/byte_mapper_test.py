@@ -11,3 +11,7 @@ class TestByteMapper(TestBase):
         """it returns the value as a string"""
         assert self.mapper.resolve('hello') == 'hello'.encode('utf-8')
 
+    def test_parse(self):
+        """it returns the value an encoded"""
+        assert self.mapper.resolve('hello') == 'hello'.encode('utf-8')
+

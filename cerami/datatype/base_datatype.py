@@ -15,8 +15,8 @@ class DynamoDataType(object):
             mapper_cls=None):
         self.default = default
         self.set_column_name(column_name)
-        self.mapper = mapper_cls(self) if mapper_cls else None
         self.condition_type = condition_type
+        self.mapper = mapper_cls(self) if mapper_cls else None
 
     def eq(self, value):
         return EqualityExpression("=", self, value)

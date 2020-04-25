@@ -11,5 +11,5 @@ class ModelReconstructor(BaseReconstructor):
                 val = item_dict[column.column_name]
             except KeyError:
                 continue
-            data[column.column_name] = column.mapper.parse(val)
+            data[column.column_name] = column.mapper.reconstruct(val)
         return self.model_cls(**data)

@@ -9,17 +9,6 @@ class ModelMap(DynamoDataType):
         for column in self.model_cls._columns:
             setattr(self, column.column_name, copy(column))
 
-    def build(self, val):
-        val = val or self._get_default()
-        if val == None:
-            return None
-        if isinstance(val, dict):
-            return self.model_cls(data=val)
-        elif isinstance(val, self.model_cls):
-            return val
-        else:
-            raise ValueError("build must receive a dict or Model")
-
     def as_dict(self, val):
         return val.as_dict()
 
@@ -32,5 +21,3 @@ class ModelMap(DynamoDataType):
             if isinstance(attr, DynamoDataType):
                 new_name = val + "." + name
                 attr.set_column_name(new_name)
-
-

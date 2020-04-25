@@ -34,14 +34,14 @@ class TestDictMapper(TestBase):
 
     def test_parse(self):
         """it uses guesser to find the correct datatype
-        based on the value and calls parse for that datatype
+        based on the value and calls reconstruct for that datatype
         """
         mocked_dt = Mock()
-        mocked_dt.mapper.parse.return_value = "mocked"
+        mocked_dt.mapper.reconstruct.return_value = "mocked"
         self.mocked_parse_guesser.guess.return_value = mocked_dt
         mapped_dict = {'M': {'testkey': {'S': 'testval'}}}
         assert self.mapper.parse(mapped_dict) == {'testkey': 'mocked'}
         self.mocked_parse_guesser.guess.assert_called_with(
             'testkey',
             {'S': 'testval'})
-        mocked_dt.mapper.parse.assert_called_with({'S': 'testval'})
+        mocked_dt.mapper.reconstruct.assert_called_with({'S': 'testval'})

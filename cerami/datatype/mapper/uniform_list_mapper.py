@@ -1,16 +1,12 @@
 from .base_datatype_mapper import BaseDatatypeMapper
 
-class UniformListMapper(object):
+class UniformListMapper(BaseDatatypeMapper):
     def __init__(self, mapper):
         self.mapper = mapper
-
-    def map(self, value):
-        mapped_items = [self.mapper.map(i) for i in value]
-        return {'L': mapped_items}
+        self.condition_type = "L"
 
     def resolve(self, value):
-        return [self.mapper.resolve(i) for i in value]
+        return [self.mapper.map(i) for i in value]
 
-    def parse(self, mapped_dict):
-        condition_type  = self.mapper.datatype.condition_type
-        return [self.mapper.parse(i) for i in mapped_dict["L"]]
+    def parse(self, value):
+        return [self.mapper.reconstruct(i) for i in value]

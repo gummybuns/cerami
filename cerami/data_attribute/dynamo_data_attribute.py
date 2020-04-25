@@ -1,7 +1,7 @@
 class DynamoDataAttribute(object):
     def __init__(self, datatype, value=None, initialized=True):
         self.datatype = datatype
-        self.value = self.datatype.build(value)
+        self.value = value
         self.initialized = initialized
         self._changed = False
 
@@ -10,7 +10,7 @@ class DynamoDataAttribute(object):
 
     def set(self, newvalue):
         self._changed = True
-        self.value = self.datatype.build(newvalue)
+        self.value = newvalue
 
     def as_dict(self):
         if self.value is not None:

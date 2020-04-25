@@ -7,13 +7,6 @@ class UniformList(List):
         self.datatype = datatype
         self.mapper = UniformListMapper(self.datatype.mapper)
 
-    def build(self, val=None):
-        if val == None:
-            return val
-        if not isinstance(val, list):
-            raise ValueError("{} is not a list".format(val))
-        return [self.datatype.build(i) for i in val]
-
     def index(self, idx):
         """return an expression attribute of the inner datatype
         sets the index value on the expression attribute 

@@ -6,14 +6,12 @@ class ListMapper(BaseDatatypeMapper):
         self.map_guesser = map_guesser
         self.parse_guesser = parse_guesser
 
-    def resolve(self, value):
-        res = []
-        for idx, val in enumerate(value):
-            guessed_dt = self.map_guesser.guess(idx, val)
-            res.append(guessed_dt.mapper.resolve(val))
-        return res
-
     def map(self, value):
+        """map each v in the value list
+
+        Use the MapGuesser to find the datatype
+        Use the datatype's mapper to resolve the value
+        """
         mapped = {}
         res = []
         for idx, val in enumerate(value):
@@ -22,10 +20,16 @@ class ListMapper(BaseDatatypeMapper):
         mapped[self.datatype.condition_type] = res
         return mapped
 
-    def parse(self, mapped_dict):
+    def resolve(self, value):
         res = []
-        items = mapped_dict[self.datatype.condition_type]
-        for idx, val in enumerate(items):
+        for idx, val in enumerate(value):
+            guessed_dt = self.map_guesser.guess(idx, val)
+            res.append(guessed_dt.mapper.resolve(val))
+        return res
+
+    def parse(self, value):
+        res = []
+        for idx, val in enumerate(value):
             guessed_dt = self.parse_guesser.guess(idx, val)
-            res.append(guessed_dt.mapper.parse(val))
+            res.append(guessed_dt.mapper.reconstruct(val))
         return res

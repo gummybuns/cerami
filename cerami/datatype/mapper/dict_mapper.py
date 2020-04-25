@@ -11,16 +11,26 @@ class DictMapper(BaseDatatypeMapper):
         self.parse_guesser = parse_guesser
 
     def resolve(self, value):
+        """map each k,v in the value dict
+
+        Use the MapGuesser to find the datatype
+        Use the datatype's mapper to resolve the value
+        """
         res = {}
         for key, val in value.items():
             guessed_dt = self.map_guesser.guess(key, val)
             res[key] = guessed_dt.mapper.map(val)
         return res
 
-    def parse(self, mapped_dict):
+    def parse(self, value):
+        """map each k,v in the value dict
+
+        Use the ParseGuesser to find the datatype
+        User the datatype's reconstructor to parse the value
+        """
         res = {}
-        data = mapped_dict[self.datatype.condition_type]
-        for key, val in data.items():
-            guessed_dt = self.parse_guesser.guess(key, val)
-            res[key] = guessed_dt.mapper.parse(val)
+        data = value[self.datatype.condition_type]
+        for key, nested_dict in data.items():
+            guessed_dt = self.parse_guesser.guess(key, nested_dict)
+            res[key] = guessed_dt.mapper.reconstruct(nested_dict)
         return res

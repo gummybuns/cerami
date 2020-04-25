@@ -64,13 +64,6 @@ class Map(DynamoDataType):
         column_name = self.column_name + "." + key
         return type(datatype)(column_name=column_name)
 
-    def build(self, val):
-        val = val or self._get_default()
-        if val == None or isinstance(val, dict):
-            return val
-        else:
-            raise ValueError("build must receive a dict")
-
     def as_dict(self, val):
         if val == None or isinstance(val, dict):
             return val
@@ -107,13 +100,6 @@ class List(DynamoDataType):
         dt = datatype_cls(column_name=self.column_name)
         dt._index = idx
         return dt
-
-    def build(self, val):
-        val = val or self._get_default()
-        if val == None or isinstance(val, list):
-            return val
-        else:
-            raise ValueError("build must receive a list")
 
     def as_dict(self, val):
         if isinstance(val, list):
