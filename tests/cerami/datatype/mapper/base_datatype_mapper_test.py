@@ -8,6 +8,10 @@ class TestBaseDatatypeMapper(TestBase):
         self.dt = String()
         self.mapper = BaseDatatypeMapper(self.dt)
 
+    def test_map_none(self):
+        """it returns the NULL object when value is None"""
+        assert self.mapper.map(None) == {'NULL': True}
+
     def test_map(self):
         """it returns a dict
         with the key the condition_type

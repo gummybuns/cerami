@@ -14,6 +14,8 @@ class BaseDatatypeMapper(object):
         ex) {"S": "Zac"}
 
         """
+        if value == None:
+            return {'NULL': True}
         res = {}
         res[self.condition_type] = self.resolve(value)
         return res
