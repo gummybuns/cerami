@@ -42,6 +42,16 @@ class DynamoDataType(object):
     def set_column_name(self, val):
         self.column_name = val
 
+    def build(self, val):
+        """set the value to val or default if present
+
+        building is called automatically by the DynamoDataAttribute
+        when the model is initialized.
+        """
+        if val is None:
+            return self._get_default(val)
+        return val
+
     def _get_default(self, val=None):
         if self.default:
             if callable(self.default):
