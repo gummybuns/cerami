@@ -64,18 +64,6 @@ class Map(DynamoDataType):
         column_name = self.column_name + "." + key
         return type(datatype)(column_name=column_name)
 
-    def as_dict(self, val):
-        if val == None or isinstance(val, dict):
-            return val
-        else:
-            raise ValueError("as_dict must receive a dict")
-
-    def as_item(self, val):
-        if val == None or isinstance(val, dict):
-            return self.mapper.map(val)
-        else:
-            raise ValueError("as_item must receive a dict")
-
 
 class List(DynamoDataType):
     def __init__(
@@ -100,15 +88,3 @@ class List(DynamoDataType):
         dt = datatype_cls(column_name=self.column_name)
         dt._index = idx
         return dt
-
-    def as_dict(self, val):
-        if isinstance(val, list):
-            return val
-        else:
-            raise ValueError("as_dict must receive a list")
-
-    def as_item(self, val):
-        if isinstance(val, list):
-            return self.mapper.map(val)
-        else:
-            raise ValueError("as_item must receive a list")

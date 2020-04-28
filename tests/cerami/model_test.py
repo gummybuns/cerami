@@ -91,15 +91,6 @@ class TestModelClass(TestBase):
             self.model._id = "new_id"
             setter.assert_called()
 
-    def test_as_item_serializes_each_model_key(self):
-        """it should return the data as a dict
-
-        this means called serialize() for each attribute
-        """
-        with patch("cerami.data_attribute.DynamoDataAttribute.as_dict") as as_dict:
-            item = self.model.as_item()
-            as_dict.call_count == 3
-
     def test_get_full_attribute_none(self):
         """it should return None when the key is missing"""
         assert self.model._get_full_attribute('bad') is None

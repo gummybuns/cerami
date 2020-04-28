@@ -6,3 +6,5 @@ from .dict_mapper_test import *
 from .list_mapper_test import *
 from .uniform_list_mapper_test import *
 from .byte_mapper_test import *
+from .number_mapper_test import *
+from .datetime_mapper_test import *

@@ -1,17 +1,8 @@
 import dateutil.parser
-from datetime import datetime
+from datetime import datetime, timezone
 from .base_string import BaseString
+from .mapper import DatetimeMapper
 
 class Datetime(BaseString):
-    def build(self, val):
-        val = val or self._get_default()
-        if isinstance(val, datetime) or val is None:
-            return val
-        return dateutil.parser.parse(val)
-
-    def as_item(self, val):
-        return val.isoformat()
-
-    def as_dict(self, val):
-        return self.as_item(val)
-
+    def __init__(self, mapper_cls=DatetimeMapper, **kwargs):
+        super(Datetime, self).__init__(mapper_cls=mapper_cls, **kwargs)

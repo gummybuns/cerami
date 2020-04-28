@@ -1,5 +1,5 @@
 from mock import Mock, patch
-from datetime import datetime
+from datetime import datetime, timezone
 from tests.helpers.testbase import TestBase
 from cerami.model import Model
 from cerami.datatype.expression import (
@@ -14,6 +14,7 @@ from cerami.datatype.mapper import (
     DictMapper,
     ListMapper,
     NumberMapper,
+    DatetimeMapper,
     SetMapperDecorator)
 from cerami.datatype import (
     DynamoDataType,
@@ -72,10 +73,6 @@ class TestString(TestBase):
     def test_mapper(self):
         assert isinstance(self.dt.mapper, StringMapper)
 
-    def test_as_item(self):
-        """it returns the value as a string"""
-        assert self.dt.as_item(1) == "1"
-
 class TestByteBuffer(TestBase):
     def setUp(self):
         super(TestByteBuffer, self).setUp()
@@ -87,12 +84,6 @@ class TestByteBuffer(TestBase):
     def test_mapper(self):
         assert isinstance(self.dt.mapper, ByteMapper)
 
-    def test_as_item(self):
-        assert self.dt.as_item(b'1') == b'1'
-
-    def test_as_dict(self):
-        assert self.dt.as_dict(b'1') == b'1'
-
 class TestDatetime(TestBase):
     def setUp(self):
         super(TestDatetime, self).setUp()
@@ -102,15 +93,7 @@ class TestDatetime(TestBase):
         assert self.dt.condition_type == "S"
 
     def test_mapper(self):
-        assert isinstance(self.dt.mapper, StringMapper)
-
-    def test_as_item(self):
-        """it returns the value in isoformat"""
-        val = Mock()
-        val.isoformat.return_value = "fake isostring"
-        res = self.dt.as_item(val)
-        val.isoformat.assert_called()
-        assert res == "fake isostring"
+        assert isinstance(self.dt.mapper, DatetimeMapper)
 
 class TestMap(TestBase):
     def setUp(self):
@@ -131,19 +114,6 @@ class TestMap(TestBase):
     def test_mapper(self):
         """it is an instance of DictMapper"""
         assert isinstance(self.dt.mapper, DictMapper)
-
-    def test_as_dict(self):
-        """it returns the val when it is a dict"""
-        val = {'test': 1}
-        assert self.dt.as_dict(val) == val
-
-    def test_as_item(self):
-        """it returns mapper.map's value"""
-        with patch('cerami.datatype.mapper.DictMapper.map') as mp:
-            mp.return_value = 'mocked'
-            val = {'test': 1}
-            assert self.dt.as_item(val) == 'mocked'
-            mp.assert_called_with(val)
 
 class TestList(TestBase):
     def setUp(self):
@@ -184,13 +154,6 @@ class TestList(TestBase):
         assert isinstance(res, String)
         assert res._index == 0
 
-    def test_as_item(self):
-        """it reutns the mapped value when it is a list"""
-        with patch('cerami.datatype.mapper.ListMapper.map') as lm:
-            lm.return_value = 'mocked'
-            val = [1,2,3]
-            assert self.dt.as_item(val) == 'mocked'
-
 class TestModelMap(TestBase):
     class TestModel(Model):
         __tablename__ = "test"
@@ -213,18 +176,6 @@ class TestModelMap(TestBase):
 
     def test_mapper(self):
         assert isinstance(self.dt.mapper, ModelMapper)
-
-    def test_as_dict(self):
-        """it calls the passed value as_dict method"""
-        val = Mock()
-        self.dt.as_dict(val)
-        val.as_dict.assert_called()
-
-    def test_as_item(self):
-        """it calls the passed value as_item method"""
-        val = Mock()
-        self.dt.as_item(val)
-        val.as_item.assert_called()
 
     def set_column_name(self):
         """it updates the column_name and all nested column names"""

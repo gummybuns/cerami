@@ -7,9 +7,3 @@ class Set(DynamoDataType):
         self.datatype = datatype
         self.mapper = SetMapperDecorator(self.datatype.mapper)
         self.condition_type = self.datatype.condition_type + "S"
-
-    def as_item(self, val):
-        return [self.datatype.as_item(i) for i in val]
-
-    def as_dict(self, val):
-        return self.as_item(val)

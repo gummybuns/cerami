@@ -15,10 +15,3 @@ class UniformList(List):
         dt = datatype_cls(column_name=self.column_name)
         dt._index = idx
         return dt
-
-    def as_item(self, val):
-        return [self.datatype.as_item(i) for i in val]
-
-    def as_dict(self, val):
-        return [self.datatype.as_dict(i) for i in val]
-

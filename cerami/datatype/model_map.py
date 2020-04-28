@@ -9,12 +9,6 @@ class ModelMap(DynamoDataType):
         for column in self.model_cls._columns:
             setattr(self, column.column_name, copy(column))
 
-    def as_dict(self, val):
-        return val.as_dict()
-
-    def as_item(self, val):
-        return val.as_item()
-
     def set_column_name(self, val):
         super(ModelMap, self).set_column_name(val)
         for name, attr in self.__dict__.items():

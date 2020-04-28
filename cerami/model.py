@@ -124,7 +124,7 @@ class Model(object, metaclass=ModelMeta):
             name = column.column_name
             attr = self._get_full_attribute(name)
             if attr.initialized or attr._changed:
-                item[name] = attr.as_dict()
+                item[name] = attr.datatype.mapper.resolve(attr.value)
         return item
 
     def as_item(self):
@@ -162,5 +162,5 @@ class Model(object, metaclass=ModelMeta):
             attr = self._get_full_attribute(column_name)
             if (not column in self._primary_key
                 and (attr.initialized or attr._changed)):
-                updater.set(column.eq(attr.as_dict()))
+                updater.set(column.eq(attr.datatype.mapper.resolve(attr.value)))
         return updater.execute()
