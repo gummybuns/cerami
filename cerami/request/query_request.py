@@ -1,11 +1,16 @@
-from .mixins import BaseRequest, Filterable, Keyable
+from .mixins import BaseRequest, Filterable, Keyable, Projectable, Limitable
 from ..response import SearchResponse
 from .search_attribute import (
     SearchAttribute,
     DictAttribute,
     QueryExpressionAttribute)
 
-class QueryRequest(BaseRequest, Filterable, Keyable):
+class QueryRequest(
+        BaseRequest,
+        Filterable,
+        Keyable,
+        Projectable,
+        Limitable):
     def execute(self):
         response = self.client.query(**self.build())
         return SearchResponse(response, self.reconstructor)

@@ -8,7 +8,7 @@ from cerami.request.search_attribute import (
     SearchAttribute,
     DictAttribute,
     QueryExpressionAttribute)
-from cerami.request.mixins import Filterable, Keyable
+from cerami.request.mixins import Filterable, Keyable, Projectable, Limitable
 
 class TestModel(Model):
     test = String()
@@ -27,6 +27,12 @@ class TestQueryRequest(TestBase):
     def test_is_keyable(self):
         """it is keyable"""
         assert isinstance(self.request, Keyable)
+
+    def test_is_projectable(self):
+        assert isinstance(self.request, Projectable)
+
+    def test_is_limitable(self):
+        assert isinstance(self.request, Limitable)
 
     def test_index(self):
         """it adds the IndexName to the request"""

@@ -2,6 +2,7 @@ from mock import Mock, patch
 from tests.helpers.testbase import TestBase
 from cerami.response import SearchResponse
 from cerami.request import ScanRequest
+from cerami.request.mixins import Filterable, Projectable, Limitable
 
 class TestScanRequest(TestBase):
     def setUp(self):
@@ -9,6 +10,15 @@ class TestScanRequest(TestBase):
         self.request = ScanRequest(
             tablename="test",
             client=self.mocked_client)
+
+    def test_is_filterable(self):
+        assert isinstance(self.request, Filterable)
+
+    def test_is_limitable(self):
+        assert isinstance(self.request, Limitable)
+
+    def test_is_projectable(self):
+        assert isinstance(self.request, Projectable)
 
     def test_execute(self):
         """it calls scan with the build

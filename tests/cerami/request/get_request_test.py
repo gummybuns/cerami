@@ -2,7 +2,7 @@ from mock import Mock, patch, call
 from tests.helpers.testbase import TestBase
 from cerami.response import GetResponse
 from cerami.request import GetRequest
-from cerami.request.mixins import Keyable
+from cerami.request.mixins import Keyable, Projectable
 
 class TestGetRequest(TestBase):
     def setUp(self):
@@ -14,6 +14,9 @@ class TestGetRequest(TestBase):
     def test_is_keyable(self):
         """it is keyable"""
         assert isinstance(self.request, Keyable)
+
+    def test_is_projectable(self):
+        assert isinstance(self.request, Projectable)
 
     def test_execute(self):
         """it calls get_item with the build
