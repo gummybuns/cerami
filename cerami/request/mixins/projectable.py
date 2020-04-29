@@ -30,3 +30,4 @@ class Projectable(object):
                 DictAttribute,
                 'ExpressionAttributeNames',
                 names)
+        return self

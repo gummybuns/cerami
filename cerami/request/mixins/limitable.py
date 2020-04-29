@@ -9,3 +9,4 @@ class Limitable(object):
             SearchAttribute,
             'Limit',
             limit_number)
+        return self
