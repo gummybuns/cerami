@@ -9,10 +9,15 @@ class Projectable(object):
     def project(self, *datatypes_or_expressions):
         """return a new Request setup with project attributes
 
-        ProjectionExpression, ExpressionAttributeNames
+        Adds the ProjectionExpression, ExpressionAttributeNames to the
+        request_attributes dict
 
+        Arguments:
         The args can be an array of datatypes or expressions because projecting 
         allows for list index expressions
+
+        Returns:
+        the instance of this class
         """
         for val in datatypes_or_expressions:
             names = {}

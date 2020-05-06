@@ -8,8 +8,14 @@ class Filterable(object):
     def filter(self, *expressions):
         """return a new Request setup with filter attributes
 
-        FilterExpression, ExpressionAttributeNames, ExpressionAttributeValues
-        are all required to filter properly
+        Adds the FilterExpression, ExpressionAttributeNames, and
+        ExpressionAttributeValue to the request_attributes dict
+
+        Arguments:
+        expressions -- a list of BaseExpressions
+
+        Returns:
+        the instance of this class
         """
         for expression in expressions:
             names = {}
