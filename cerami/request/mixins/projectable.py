@@ -13,8 +13,8 @@ class Projectable(object):
         request_attributes dict
 
         Arguments:
-        The args can be an array of datatypes or expressions because projecting 
-        allows for list index expressions
+        datatypes -- a list of datatypes. List.index() and Map.key()
+        can be passed to project specific nested attributes
 
         Returns:
         the instance of this class
