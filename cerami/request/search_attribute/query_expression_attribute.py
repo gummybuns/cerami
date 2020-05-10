@@ -3,17 +3,14 @@ from .search_attribute import SearchAttribute
 class QueryExpressionAttribute(SearchAttribute):
     """A class specifically to be used for QueryRequest.key()"""
 
-    def __init__(self, name, value=None):
+    def __init__(self, value=None):
         """constructor for the Search Attribute
-
-        Arguments:
-        name -- a string representing the option for the Request
 
         Keyword Arguments
         value -- it should be an array of BaseExpressions
         """
         value = value or []
-        super(QueryExpressionAttribute, self).__init__(name, value)
+        super(QueryExpressionAttribute, self).__init__(value)
 
     def add(self, expression):
         """Update self.value by appending the new expression

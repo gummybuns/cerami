@@ -3,17 +3,16 @@ from .search_attribute import SearchAttribute
 class ProjectionExpressionAttribute(SearchAttribute):
     """A class specifically to be used with the Projectable mixin"""
 
-    def __init__(self, name="ProjectionExpression", value=None):
+    def __init__(self, value=None):
         """constructor for the SearchAttribute
 
         Arguments:
-        name -- a string representing the option for the Request
 
         Keyword Arguments:
         value -- it should be an array of BaseExpressions.
         """
         value = value or []
-        super(ProjectionExpressionAttribute, self).__init__(name, value)
+        super(ProjectionExpressionAttribute, self).__init__(value)
 
     def add(self, expression):
         """Update self.value by appending the new expression

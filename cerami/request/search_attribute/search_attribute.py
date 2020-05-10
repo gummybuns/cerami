@@ -14,17 +14,12 @@ class SearchAttribute(object):
     handled by SearchAttribute.add()
     """
 
-    def __init__(self, name, value=None):
+    def __init__(self, value=None):
         """constructor for the SearchAttribute
-
-        Arguments:
-        name -- a string representing the option for the Request.
-            For example, for scanning it could be 'FilterExpression'
 
         Keyword Arguments
         value -- it can by anything - whatever should be associated with the name
         """
-        self.name = name
         self.value = value
 
     def add(self, value):

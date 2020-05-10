@@ -12,12 +12,24 @@ class Projectable(object):
         Adds the ProjectionExpression, ExpressionAttributeNames to the
         request_attributes dict
 
-        Arguments:
-        datatypes -- a list of datatypes. List.index() and Map.key()
-        can be passed to project specific nested attributes
+        Args:
+            *datatypes: a list of datatypes. List.index() and Map.key()
+                can be passed to project specific nested attributes
 
         Returns:
-        the instance of this class
+            the caller of the method. This allows for chaining
+
+        For example::
+
+            Person.scan.project(Person.name, Person.email)
+            {
+                "TableName": "people",
+                "ProjectionExpression": "#__name  :_name_lwxqt, #__email  :_email_dvsyj",
+                "ExpressionAttributeNames": {
+                    "#__name": "name",
+                    "#__email": "email"
+                }
+            }
         """
         for val in datatypes_or_expressions:
             names = {}

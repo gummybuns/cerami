@@ -11,7 +11,7 @@ class FakeModel(Model):
 
 class TestUpdateExpressionAttribute(TestBase):
     def setUp(self):
-        self.attribute = UpdateExpressionAttribute("Test")
+        self.attribute = UpdateExpressionAttribute()
 
     def test_add_new_action(self):
         """it adds a new key of the action to self.value dict"""

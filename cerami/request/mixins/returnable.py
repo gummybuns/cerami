@@ -8,11 +8,39 @@ class Returnable(object):
 
         Adds the ReturnValues to the request attributes dict
 
-        Arguments
-        value -- NONE | ALL_OLD | UPDATED_OLD | ALL_NEW | UPDATED_NEW
+        Args:
+            value: NONE | ALL_OLD | UPDATED_OLD | ALL_NEW | UPDATED_NEW
 
         Returns:
-        the instance of this class
+            the caller of the method. This allows for chaining
+
+        For example::
+
+
+            from cerami.request.return_values import UPDATED_NEW
+            Person.update \\
+                .key(Person.email.eq('test@test.com')) \\
+                .set(Person.name.eq('new name')) \\
+                .returns(UPDATED_NEW) \\
+                .build()
+            {
+                "TableName": "people",
+                "ReturnValues": "UPDATED_NEW",
+                "Key": {
+                    "email": {
+                        "S": "test@test.com"
+                    }
+                },
+                "UpdateExpression": "SET #__name = :_name_zhvzz",
+                "ExpressionAttributeNames": {
+                    "#__name": "name"
+                },
+                "ExpressionAttributeValues": {
+                    ":_name_zhvzz": {
+                        "S": "new name"
+                    }
+                }
+            }
         """
         self.add_attribute(
             SearchAttribute,

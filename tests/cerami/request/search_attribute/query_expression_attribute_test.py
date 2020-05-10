@@ -9,7 +9,7 @@ class FakeModel(Model):
 
 class TestQueryExpressionAttribute(TestBase):
     def setUp(self):
-        self.attribute = QueryExpressionAttribute("Test")
+        self.attribute = QueryExpressionAttribute()
 
     def test_add(self):
         """it adds the expression to the array"""

@@ -3,7 +3,7 @@ from cerami.request.search_attribute import DictAttribute
 
 class TestDictAttribute(TestBase):
     def setUp(self):
-        self.attribute = DictAttribute("Test")
+        self.attribute = DictAttribute()
 
     def test_add(self):
         """it updates the value"""

@@ -6,13 +6,25 @@ class Keyable(object):
     def key(self, *expressions):
         """return a new Request setup with the Key attribute
 
-        Adds the Ley to the request_attributes dict
+        Adds the Key to the request_attributes dict
 
-        Arguments:
-        expressions -- a list of BaseExpressions
+        Args:
+            *expressions: a list of ``BaseExpressions``
 
         Returns:
-        the instance of this class
+            the caller of the method. This allows for chaning
+
+        For example::
+        
+            Person.get.key(Person.email.eq('test@test.com')).build()
+            {
+                "TableName": "people",
+                "Key": {
+                    "email": {
+                        "S": "test@test.com"
+                    }
+                }
+            }
         """
         for expression in expressions:
             key_dict = {}

@@ -11,11 +11,31 @@ class Filterable(object):
         Adds the FilterExpression, ExpressionAttributeNames, and
         ExpressionAttributeValue to the request_attributes dict
 
-        Arguments:
-        expressions -- a list of BaseExpressions
+        Args:
+            *expressions: a list of ``BaseExpressions``
 
         Returns:
-        the instance of this class
+            the caller of the method. This allows for chaining
+
+        For example::
+
+            Person.scan.filter(Person.name.eq('Zac')).filter(Person.age.lt(50)).build()
+            {
+                "TableName": "people",
+                "FilterExpression": "#__name = :_name_pwmbx and #__age < :_age_twtue",
+                "ExpressionAttributeNames": {
+                    "#__name": "name",
+                    "#__age": "age"
+                },
+                "ExpressionAttributeValues": {
+                    ":_name_pwmbx": {
+                        "S": "Zac"
+                    },
+                    ":_age_twtue": {
+                        "N": "50"
+                    }
+                }
+            }
         """
         for expression in expressions:
             names = {}

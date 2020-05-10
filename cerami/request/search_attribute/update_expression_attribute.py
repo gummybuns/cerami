@@ -10,17 +10,14 @@ class UpdateExpressionAttribute(SearchAttribute):
     Model.add(Model.a_number(10)).add(Model.other_number(20)) becomes
     ADD a_number 10, other_number 20
     """
-    def __init__(self, name, value=None):
+    def __init__(self, value=None):
         """constructor for the SearchAttribute
-
-        Arguments:
-        name -- a string representing the option for the Request.
 
         Keyword Arguments
         value -- it should be a dict whose keys are arrays of expressions
         """
         value = value or {}
-        super(UpdateExpressionAttribute, self).__init__(name, value)
+        super(UpdateExpressionAttribute, self).__init__(value)
 
     def add(self, update_action):
         """Update the self.value with the update_action
