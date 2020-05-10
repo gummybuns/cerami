@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 from .dynamic import List
 from .mapper import UniformListMapper
 
@@ -36,6 +36,6 @@ class UniformList(List):
         Example:
         MyModel.scan.filter(MyModel.number_list.index(2).eq(100)).execute()
         """
-        dt = copy(self.datatype)
+        dt = deepcopy(self.datatype)
         dt._index = idx
         return dt

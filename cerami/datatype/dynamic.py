@@ -1,5 +1,5 @@
 import numbers
-from copy import copy
+from copy import deepcopy
 from .number import Number
 from .string import String
 from .set import Set
@@ -210,9 +210,14 @@ class List(DynamoDataType):
         Returns:
         A copy of the datatype with _index set
 
+        Raises:
+        ValueError: An error when the datatype is not an instance of DynamoDataType
+
         Example:
         MyModel.scan.filter(MyModel.my_list.index(1, String()).eq('world')).execute()
         """
-        dt = copy(datatype)
+        if not isinstance(datatype, DynamoDataType):
+            raise ValueError("datatype must be an instance of DynamoDataType")
+        dt = deepcopy(datatype)
         dt._index = idx
         return dt

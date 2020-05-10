@@ -8,7 +8,7 @@ from cerami.request.search_attribute import (
     SearchAttribute,
     DictAttribute,
     QueryExpressionAttribute)
-from cerami.request.mixins import Filterable, Keyable, Projectable, Limitable
+from cerami.request.mixins import Filterable, Projectable, Limitable
 
 class TestModel(Model):
     test = String()
@@ -24,9 +24,9 @@ class TestQueryRequest(TestBase):
         """it is filterable"""
         assert isinstance(self.request, Filterable)
 
-    def test_is_keyable(self):
+    def test_has_key_method(self):
         """it is keyable"""
-        assert isinstance(self.request, Keyable)
+        assert hasattr(self.request, 'key')
 
     def test_is_projectable(self):
         assert isinstance(self.request, Projectable)

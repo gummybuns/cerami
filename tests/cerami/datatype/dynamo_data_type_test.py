@@ -150,9 +150,16 @@ class TestList(TestBase):
     def test_index(self):
         """it returns a new instance of the datatype passed with the column_name
         it sets _index on the returned datatype instance"""
-        res = self.dt.index(0, String)
+        res = self.dt.index(0, String())
         assert isinstance(res, String)
         assert res._index == 0
+
+    def test_index_throws_ValueEreror(self):
+        """it throws a ValueError when the datatype is not an instance
+        This is to prevent people from accidentially passing the class in and breaking
+        everything
+        """
+        self.assertRaises(ValueError, self.dt.index, 0, String)
 
 class TestModelMap(TestBase):
     class TestModel(Model):
