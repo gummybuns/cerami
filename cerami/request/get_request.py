@@ -8,7 +8,11 @@ class GetRequest(BaseRequest, Keyable, Projectable):
         """perform the get_item request
 
         Returns:
-        a GetResponse object built from the get_item response
+            a GetResponse object built from the get_item response
+
+        For example::
+
+            Person.get.key(Person.email.eq('test@test.com')).execute()
         """
         response = self.client.get_item(**self.build())
         return GetResponse(response, self.reconstructor)

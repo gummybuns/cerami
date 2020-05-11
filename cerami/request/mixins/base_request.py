@@ -10,13 +10,12 @@ class BaseRequest(object):
 
     Attributes:
         client: A ``boto3.client('dynamodb')``
-        tablename: the name of the table to perform the request on
         request_attributes:a dict of SearchAttribute objects whose
             keys represent options that can be passed to client upon execution
             For example, it may include a FilterExpression key whose value is
             a SearchAttribute that resolves to a string of filters. This is typically
             None but can be used to manually build requests::
-            
+
                 Parent.scan.filter(Parent.name.eq('Mom')).project(Parent.name)
                 # The search_attributes can be manually specified
                 ScanRequest(client=client, tablename='parents', search_attributes={
@@ -28,7 +27,27 @@ class BaseRequest(object):
     """
 
     def __init__(self, client, tablename="", request_attributes=None, reconstructor=None):
-        """constructor for base request"""
+        """constructor for base request
+
+
+        Parameters:
+            client: A ``boto3.client('dynamodb')``
+            tablename: the name of the table to perform the request on
+            request_attributes:a dict of SearchAttribute objects whose
+                keys represent options that can be passed to client upon execution
+                For example, it may include a FilterExpression key whose value is
+                a SearchAttribute that resolves to a string of filters. This is typically
+                None but can be used to manually build requests::
+
+                    Parent.scan.filter(Parent.name.eq('Mom')).project(Parent.name)
+                    # The search_attributes can be manually specified
+                    ScanRequest(client=client, tablename='parents', search_attributes={
+                        'FilterExpression': SearchAttribute('name = Mom'),
+                        'ProjectionExpression': SearchAttribute('name'),
+                    })
+
+            reconstructor: a Reconstructor object
+        """
         self.request_attributes = copy(request_attributes or {})
         self.client = client
         self.reconstructor = reconstructor or RawReconstructor()
@@ -49,6 +68,12 @@ class BaseRequest(object):
             attr_class: a SearchAttribute class
             name: the name of the attribute
             value: the value that will be added to the SearchAttribute
+
+        For example::
+
+            Person.scan.limit(10)
+            # or ...
+            Person.scan.add_attribute(SearchAttribute, 'Limit', 10)
         """
         request_attribute = self.request_attributes.get(name, attr_class())
         request_attribute.add(value)

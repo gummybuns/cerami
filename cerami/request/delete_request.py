@@ -8,7 +8,11 @@ class DeleteRequest(BaseRequest, Keyable, Returnable):
         """perform the delete_item request
 
         Returns:
-        a DeleteResponse object built from the delete_item response
+            a DeleteResponse object built from the delete_item response
+
+        For example::
+
+            Person.delete.key(Person.email.eq('test@test.com')).execute()
         """
         response = self.client.delete_item(**self.build())
         return DeleteResponse(response, self.reconstructor)

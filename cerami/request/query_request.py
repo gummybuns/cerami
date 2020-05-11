@@ -12,7 +12,11 @@ class QueryRequest(BaseRequest, Filterable, Projectable, Limitable):
         """perform the query request
 
         Returns:
-        a SearchResponse built from the query response
+            a SearchResponse built from the query response
+
+        For example::
+
+            Person.query.key(Person.email.eq("test@test.com")).execute()
         """
         response = self.client.query(**self.build())
         return SearchResponse(response, self.reconstructor)
@@ -22,12 +26,29 @@ class QueryRequest(BaseRequest, Filterable, Projectable, Limitable):
 
         Adds the IndexName to the request_attributes dict
 
-        Arguments:
-        index_name -- a string of the index to query. It can be a local
-            secondary index or global secondary index on the table
+        Parameters:
+            index_name: a string of the index to query. It can be a local secondary
+                index or global secondary index on the table
 
         Returns:
-        the instance of this class
+            the instance of this class
+
+        For example::
+
+            Person.query.index("MyGlobalIndex).key(Person.name.eq('Mom')).build()
+            {
+                "TableName": "people",
+                "IndexName": "MyGlobalIndex",
+                "KeyConditionExpression": "#__name = :_name_lrhve",
+                "ExpressionAttributeNames": {
+                    "#__name": "name"
+                },
+                "ExpressionAttributeValues": {
+                    ":_name_lrhve": {
+                        "S": "Mom"
+                    }
+                }
+            }
         """
         self.add_attribute(SearchAttribute, 'IndexName', index_name)
         return self
@@ -38,11 +59,11 @@ class QueryRequest(BaseRequest, Filterable, Projectable, Limitable):
         The QueryRequest does not extend Keyable because it uses
         a different name for the attribute - KeyConditionExpression
 
-        Arguments:
-        expressions -- a list of BaseExpressions
+        Parameters:
+            *expressions: a list of BaseExpressions
 
         Returns:
-        the instance of this class
+            the instance of this class
         """
         for expression in expressions:
             names = {}

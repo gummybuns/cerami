@@ -29,12 +29,12 @@ class DefaultMapGuesser(object):
         in order to convert it into a dict usable by dynamodb. So this
         guesser will makes its guess based on value directly
 
-        Arguments:
-        key -- the string of the column_name
-        value -- the value of the column_name
+        Parameters:
+            key: the string of the column_name
+            value: the value of the column_name
 
         Returns:
-        A DynamoDataType object
+            A DynamoDataType object
         """
         if isinstance(value, numbers.Number):
             return Number()
@@ -66,10 +66,10 @@ class DefaultParseGuesser(object):
         where key is 'test' and value is {'S': 'hello'}
         this will fetch the inner key ('S') and guess from this value
 
-        Arguments:
-        key -- the column_name of the attribute
-        value -- a dict whose key is the condition_type and value is the value
-            of the column.
+        Parameters:
+            key: the column_name of the attribute
+            value: a dict whose key is the condition_type and value is the value
+                of the column.
 
         Returns:
         A DynamoDataType object
@@ -112,13 +112,13 @@ class Map(DynamoDataType):
             column_name=""):
         """constructor for Map
 
-        Arguments:
-        map_guesser -- An object inheriting from DefaultMapGuesser
-            Defaults to the DefaultMapGuesser
-        parse_guesser -- An object inheriting from DefaultParseGuesser
-            Defaults to the DefaultParseGuesser.
-        default -- a default value for the column. It can be a value or function
-        column_name -- a string defining the name of the column on the table
+        Parameters:
+            map_guesser: an object inheriting from DefaultMapGuesser
+                Defaults to the DefaultMapGuesser
+            parse_guesser: an object inheriting from DefaultParseGuesser
+                Defaults to the DefaultParseGuesser.
+            default: a default value for the column. It can be a value or function
+            column_name: a string defining the name of the column on the table
         """
         super(Map, self).__init__(
             condition_type="M",
@@ -134,15 +134,16 @@ class Map(DynamoDataType):
         When forming a Request that involves a specific key from the Map, that item can
         be specified using the key() method.
 
-        Arguments:
-        datatype -- a DynamoDataType instance representing the nested value
-        key -- the name of the nested value
+        Parameters:
+            datatype: a DynamoDataType instance representing the nested value
+            key: the name of the nested value
 
         Returns:
-        A copy of the datatype with an new keyname
+            A copy of the datatype with an new keyname
 
-        Example:
-        Parent.scan.filter(MyModel.child.key(String(), 'name').eq('Zac'))
+        For example::
+
+            Parent.scan.filter(MyModel.child.key(String(), 'name').eq('Zac'))
         """
         column_name = self.column_name + "." + key
         return type(datatype)(column_name=column_name)
@@ -165,13 +166,13 @@ class List(DynamoDataType):
             column_name=""):
         """constructor for List
 
-        Arguments:
-        map_guesser -- An object inheriting from DefaultMapGuesser
-            Defaults to the DefaultMapGuesser
-        parse_guesser -- An object inheriting from DefaultParseGuesser
-            Defaults to the DefaultParseGuesser.
-        default -- a default value for the column. It can be a value or function
-        column_name -- a string defining the name of the column on the table
+        Parameters:
+            map_guesser: An object inheriting from DefaultMapGuesser
+                Defaults to the DefaultMapGuesser
+            parse_guesser: An object inheriting from DefaultParseGuesser
+                Defaults to the DefaultParseGuesser.
+            default: a default value for the column. It can be a value or function
+            column_name: a string defining the name of the column on the table
         """
         super(List, self).__init__(
             condition_type="L",
@@ -186,12 +187,19 @@ class List(DynamoDataType):
 
         It can only be used in SET UpdateExpressions.
 
-        Arguments:
-        array -- can be a list or single value to be appended. When it is a single value,
-            it is automatically put inside its own array, before building the expression.
+        Parameters:
+            array: can be a list or single value to be appended. When it is a single
+                value, it is automatically put inside its own array, before building the
+                expression.
 
         Returns:
-        A ListAppendExpression
+            A ListAppendExpression
+
+        For example::
+
+            Person.update \\
+                .key(Person.email.eq("test@test.com"))
+                .set(Person.toys.append({"color": "red", "name": "car"})
         """
         if not isinstance(array, list):
             array = [array]
@@ -203,18 +211,19 @@ class List(DynamoDataType):
         When forming a Request that involves a specific item in the List, that item can
         be specified using this index() method.
 
-        Arguments:
-        idx -- a number for the index of the desired item in the list
-        datatype -- a DynamoDataType object representing the item indexed
+        Parameters:
+            idx: a number for the index of the desired item in the list
+            datatype: a DynamoDataType object representing the item indexed
 
         Returns:
-        A copy of the datatype with _index set
+            A copy of the datatype with _index set
 
         Raises:
-        ValueError: An error when the datatype is not an instance of DynamoDataType
+            ValueError: An error when the datatype is not an instance of DynamoDataType
 
-        Example:
-        MyModel.scan.filter(MyModel.my_list.index(1, String()).eq('world')).execute()
+        For example::
+
+            MyModel.scan.filter(MyModel.my_list.index(1, String()).eq('world'))
         """
         if not isinstance(datatype, DynamoDataType):
             raise ValueError("datatype must be an instance of DynamoDataType")

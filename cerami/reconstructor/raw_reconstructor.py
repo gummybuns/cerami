@@ -6,11 +6,11 @@ class RawReconstructor(BaseReconstructor):
     def reconstruct(self, item_dict):
         """Return the item_dict
 
-        Arguments:
-        item_dict -- a dict from DynamoDB. It will be in the format like
-        {"a_column": {"S": "my_value"}}
+        Parameters:
+            item_dict: a dict from DynamoDB. It will be in the format like
+                ``{"a_column": {"S": "my_value"}}``
 
         Returns:
-        the item_dict passed in
+            the item_dict passed in
         """
         return item_dict

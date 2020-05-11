@@ -8,7 +8,11 @@ class ScanRequest(BaseRequest, Filterable, Projectable, Limitable):
         """perform the scan request
 
         Returns:
-        a SearchResponse built from the scan response
+            a SearchResponse built from the scan response
+
+        For example::
+
+            Person.scan.filter(Person.name.eq("Mom")).execute()
         """
         response = self.client.scan(**self.build())
         return SearchResponse(response, self.reconstructor)

@@ -6,8 +6,8 @@ class QueryExpressionAttribute(SearchAttribute):
     def __init__(self, value=None):
         """constructor for the Search Attribute
 
-        Keyword Arguments
-        value -- it should be an array of BaseExpressions
+        Parameters:
+            value: it should be an array of BaseExpressions
         """
         value = value or []
         super(QueryExpressionAttribute, self).__init__(value)
@@ -16,7 +16,7 @@ class QueryExpressionAttribute(SearchAttribute):
         """Update self.value by appending the new expression
 
         Arguments:
-        expression -- a BaseExpression
+            expression: a BaseExpression
         """
         self.value.append(expression)
 

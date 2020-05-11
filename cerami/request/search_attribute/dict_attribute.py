@@ -6,8 +6,8 @@ class DictAttribute(SearchAttribute):
     def __init__(self, value=None):
         """constructor for the SearchAttribute
 
-        Keyword Arguments
-        value - it should be a dict, or will default to an empty one
+        Parameters:
+        value: it should be a dict, or will default to an empty one
         """
         value = value or {}
         super(DictAttribute, self).__init__(value)

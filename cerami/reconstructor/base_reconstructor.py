@@ -2,7 +2,7 @@ class BaseReconstructor(object):
     """The base class for all Reconstructors
 
     Reconstructors are used to interpret data from a DynamoDB response. All
-    classes that inherit from BaseReconstructor implement reconstruct() which
+    classes that inherit from BaseReconstructor implement ``reconstruct()`` which
     takes in the DynamoDB data and manipulates it accordingly.
 
     For example, the ModelReconstructor converts the raw DynamoDB response data back
@@ -14,8 +14,11 @@ class BaseReconstructor(object):
 
         Its purpose it to convert the item_dict from DynamoDB
 
-        Arguments:
-        item_dict -- a dict from DynamoDB. It will be in the format like
-        {"a_column": {"S": "my_value"}}
+        Parameters:
+            item_dict: a dict from DynamoDB. It will be in the format like
+                ``{"a_column": {"S": "my_value"}}``
+
+        Raises:
+            Exception: Not Implemented
         """
-        raise "Not implemented"
+        raise Exception("Not implemented")

@@ -4,9 +4,9 @@ class UpdateAction(object):
     def __init__(self, action, expression):
         """constructor for UpdateAction
 
-        Arguments:
-        action -- a string ADD | SET | DELETE | UPDATE
-        expression -- a BaseExpression
+        Parameters:
+            action: a string ADD | SET | DELETE | UPDATE
+            expression: a BaseExpression
         """
         self.action = action
         self.expression = expression

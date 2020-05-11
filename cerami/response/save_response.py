@@ -5,12 +5,13 @@ class SaveResponse(Response):
 
     SaveResponses are generated through PutRequest and UpdateRequest
     """
+
     def __init__(self, response, reconstructor):
         """constructor for SaveResponse
 
-        Arguments:
-        response -- a dict from DynamoDB typicall from put_item or update_item
-        reconstructor -- a Reconstructor object to help interpret data
+        Parameters:
+            response: a dict from DynamoDB typicall from put_item or update_item
+            reconstructor: a Reconstructor object to help interpret data
         """
         super(SaveResponse, self).__init__(response, reconstructor)
         try:

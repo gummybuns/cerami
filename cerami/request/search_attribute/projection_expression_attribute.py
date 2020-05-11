@@ -6,10 +6,8 @@ class ProjectionExpressionAttribute(SearchAttribute):
     def __init__(self, value=None):
         """constructor for the SearchAttribute
 
-        Arguments:
-
-        Keyword Arguments:
-        value -- it should be an array of BaseExpressions.
+        Parameters:
+            value: it should be an array of BaseExpressions.
         """
         value = value or []
         super(ProjectionExpressionAttribute, self).__init__(value)
@@ -17,8 +15,8 @@ class ProjectionExpressionAttribute(SearchAttribute):
     def add(self, expression):
         """Update self.value by appending the new expression
 
-        Arguments:
-        expression -- a BaseExpression
+        Parameters:
+            expression: a BaseExpression
         """
         self.value.append(expression)
 
@@ -30,6 +28,6 @@ class ProjectionExpressionAttribute(SearchAttribute):
         empty expressions containing the Datatype.column_name
 
         Returns:
-        A string of all expressions separated by commas
+            A string of all expressions separated by commas
         """
         return ', '.join(str(expr) for expr in self.value)

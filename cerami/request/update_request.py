@@ -17,6 +17,13 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
 
         Returns:
         a SaveResponse object built from the update_item response
+
+        For example::
+
+            Person.update \\
+                .key(Person.email.eq('test@test.com')) \\
+                .set(Person.name.eq('Mommy')) \\
+                .execute()
         """
         response = self.client.update_item(**self.build())
         return SaveResponse(response, self.reconstructor)
@@ -27,12 +34,12 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
         The UpdateExpression is a comma separated list of instructions to perform on the
         table. SET will change the value or put the value if it does not exist.
 
-        Arguments:
-        expressions -- a list of BaseExpressions. In practice though, the expressions
-            should all be EqualityExpressions using '=' (Model.column.eq('...'))
+        Parameters:
+            *expressions: a list of BaseExpressions. In practice though, the expressions
+                should all be EqualityExpressions using '=' (Model.column.eq('...'))
 
         Returns:
-        the instance of this class
+            the caller of the method. This allows for chaining
         """
         for expression in expressions:
             self.update_expression('SET', expression)
@@ -45,11 +52,31 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
         table. REMOVE will delete the specified datatypes from the record. REMOVE can also
         be used to remove elements from a List datatype when used with List.index()
 
-        Arguments:
-        datatypes -- a list of DynamoDataType objects. (Model.column1, Model.column2, ...)
+        Parameters:
+            *datatypes: a list of DynamoDataType objects
 
         Returns:
-        ths instance of this class
+            the caller of the method. This allows for chaining
+
+        For example::
+
+            Person.update \\
+                .key(Person.email.eq("test@test.com")) \\
+                .remove(Person.name) \\
+                .build()
+            {
+                "TableName": "people",
+                "ReturnValues": "ALL_NEW",
+                "Key": {
+                    "email": {
+                        "S": "test@test.com"
+                    }
+                },
+                "UpdateExpression": "REMOVE #__name  :_name_butcw",
+                "ExpressionAttributeNames": {
+                    "#__name": "name"
+                }
+            }
         """
         for datatype in datatypes:
             expression = UpdateRemoveExpression(datatype)
@@ -59,18 +86,41 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
     def add(self, datatype, value):
         """Add an ADD statement to the UpdateExpression
 
-        AMAZON RECOMMENDS ONLY USING WITH NUMBERS AND SETS
+        **Amazon recommends only using with numbers and sets**
+
         The UpdateExpression is a comma separated list of instructions to perform on the
         table. ADD can be used to change the value of the Number or add to a Set.
 
-        Arguments:
-        datatype -- a DynamoDataType object to change
-        value -- the value to change the datatype
-            For Numbers the value should be a number, it can be negative to subtract
-            For Sets, the value should be an array
+        Parameters:
+            datatype: a DynamoDataType object to change
+            value: the value to change the datatype
+                For Numbers the value should be a number, it can be negative to subtract
+                For Sets, the value should be an array
 
         Returns:
-        the instance of this class
+            the caller of the method. This allows for chaining
+
+        For example::
+
+            Person.update.key(Person.email.eq("test@test.com")).add(Person.age, 10).build()
+            {
+                "TableName": "people",
+                "ReturnValues": "ALL_NEW",
+                "Key": {
+                    "email": {
+                        "S": "test@test.com"
+                    }
+                },
+                "UpdateExpression": "ADD #__age  :_age_dzszf",
+                "ExpressionAttributeNames": {
+                    "#__age": "age"
+                },
+                "ExpressionAttributeValues": {
+                    ":_age_dzszf": {
+                        "N": "10"
+                    }
+                }
+            }
         """
         expression = EqualityExpression('', datatype, value)
         return self.update_expression('ADD', expression)
@@ -82,12 +132,40 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
         The UpdateExpression is a comma separated list of instructions to perform on the
         table. DELETE can be used to remove one or more elements from a Set only.
 
-        Arguments:
-        datatype -- a Set DynamoDatatype object
-        value -- an array of values to remove from the set.
+        Parameters:
+            datatype: a Set DynamoDatatype object
+            value: an array of values to remove from the set.
 
         Returns:
-        the instance of the class
+            the caller of the method. This allows for chaining
+
+        For example::
+
+            Person.update \\
+                .key(Person.email.eq("test@test.com")) \\
+                .delete(Person.tags, ["cool", "awesome"]) \\
+                .build()
+            {
+                "TableName": "people",
+                "ReturnValues": "ALL_NEW",
+                "Key": {
+                    "name": {
+                        "S": "test@test.com"
+                    }
+                },
+                "UpdateExpression": "DELETE #__tags  :_tags_bttwj",
+                "ExpressionAttributeNames": {
+                    "#__tags": "tags"
+                },
+                "ExpressionAttributeValues": {
+                    ":_tags_bttwj": {
+                        "SS": [
+                            "cool",
+                            "awesome"
+                        ]
+                    }
+                }
+            }
         """
         expression = EqualityExpression('', datatype, value)
         return self.update_expression('DELETE', expression)
@@ -98,12 +176,12 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
         Adds the UpdateExpression, ExpressionAttributeNames and ExpressionAttributeValues
         to the request_attributes dict
 
-        Arguments:
-        action -- ADD | SET | DELETE | UPDATE
-        expression -- a BaseExpression object
+        Parameters:
+            action: ADD | SET | DELETE | UPDATE
+            expression: a BaseExpression object
 
         Returns:
-        the instance of the class
+            the caller of the method. This allows for chaining
         """
         name = {}
         name[expression.expression_attribute_name] = expression.datatype.column_name

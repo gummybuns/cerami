@@ -12,10 +12,10 @@ class UniformList(List):
     def __init__(self, datatype, default=None, column_name=""):
         """constructor for UniformList
 
-        Arguments:
-        datatype -- Any DynamoDataType that each item in the List will be
-        default -- a default value for the column. It can be a value or function
-        column_name -- a string defining the name of the column on the table
+        Parameters:
+            datatype: Any DynamoDataType that each item in the List will be
+            default: a default value for the column. It can be a value or function
+            column_name: a string defining the name of the column on the table
         """
         super(UniformList, self).__init__(default=default, column_name=column_name)
         self.datatype = datatype
@@ -27,14 +27,15 @@ class UniformList(List):
         When forming a Request that involves a specific item in the UniformList,
         that item can be specified using this index() method
 
-        Arguments:
-        idx -- a number for the index of the desired item in the list
+        Parameters:
+            idx: a number for the index of the desired item in the list
 
         Returns:
-        A copy of the datatype with _index set
+            A copy of the datatype with _index set
 
-        Example:
-        MyModel.scan.filter(MyModel.number_list.index(2).eq(100)).execute()
+        For example::
+
+            MyModel.scan.filter(MyModel.number_list.index(2).eq(100)).execute()
         """
         dt = deepcopy(self.datatype)
         dt._index = idx

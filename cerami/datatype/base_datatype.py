@@ -15,22 +15,27 @@ class DynamoDataType(object):
     def __init__(self, default=None, column_name="", condition_type="", mapper_cls=None):
         """Constructor for DynamoDataType
 
-        Arguments:
-        default -- a default value for the column. It can be a value or function
-        column_name -- a string defining the name of the column on the table
-        mapper_cls -- A Mapper class used to interpret/parse data to/from DynamoDB
-        condition_type -- A string representing one of the types defined by
-            DynamoDB for how the data is stored in the database. While DynamoDB supports
-            different datatypes, they are all represented by the following:
-            N       -- All number types
-            S       -- All string types
-            B       --  ByteBuffer / Binary
-            BOOL    -- Booleans
-            SS      -- A set of Strings
-            NS      -- A set of Numbers
-            BS      -- A set of ByteBuffers
-            L       -- Lists of any datatypes
-            M       -- Maps of key/values
+        Parameters:
+            default: a default value for the column. It can be a value or function
+            column_name: a string defining the name of the column on the table
+            mapper_cls: A Mapper class used to interpret/parse data to/from DynamoDB
+            condition_type: A string representing one of the types defined by
+                DynamoDB for how the data is stored in the database. While DynamoDB
+                supports different datatypes, they are all represented by the following:
+
+                ====  ===============
+                ====  ===============
+                N     All number types
+                S     All string types
+                B     ByteBuffer / Binary
+                BOOL  Booleans
+                SS    A set of Strings
+                NS    A set of Numbers
+                BS    A set of ByteBuffers
+                L     Lists of any datatypes
+                M     Maps of key/values
+                ====  ===============
+
         """
         self.default = default
         self.set_column_name(column_name)
@@ -43,60 +48,92 @@ class DynamoDataType(object):
         Used for performing searching exact matches when querying and scanning. It is also
         used in save requests to update and put values on columns
 
-        Arguments:
-        value -- Any value that should be used for an equality check
+        Paremeters:
+            value: Any value that should be used for an equality check
 
         Returns:
-        An EqualityExpression
+            An EqualityExpression
+
+        For example::
+
+            Person.scan.filter(Person.name.eq("Mom"))
+            Person.update.key(Person.email.eq("test@test.com")).set(Person.name.eq("Dad"))
         """
         return EqualityExpression("=", self, value)
 
     def neq(self, value):
         """Build an expression using the <> sign
 
-        Arguments:
-        value -- Any value that should be used for an not equal check
+        Parameters:
+            value: Any value that should be used for an not equal check
 
         Returns:
-        An EqualityExpression
+            An EqualityExpression
+
+        For example::
+
+            Person.scan.filter(Person.name.neq("Mom"))
         """
         return EqualityExpression("<>", self, value)
 
     def gt(self, value):
         """Build an expression using the > sign
 
-        Arguments:
-        value -- Any value that should be used for a greater than check
+        Parameters:
+            value: Any value that should be used for a greater than check
 
         Returns:
-        An EqualityExpression
+            An EqualityExpression
+
+        For example::
+
+            Person.scan.filter(Person.age.gt(20))
         """
         return EqualityExpression(">", self, value)
 
     def gte(self, value):
         """Build an expression using the >= sign
 
-        Arguments:
-        value -- Any value that should be used for a greater than or equal check
+        Parameters:
+            value: Any value that should be used for a greater than or equal check
         
         Returns:
-        An EqualityExpression
+            An EqualityExpression
+
+        For example::
+
+            Person.scan.filter(Person.age.gte(21))
         """
         return EqualityExpression(">=", self, value)
 
     def lt(self, value):
         """Build an expression using the < sign
 
+        
+        Parameters:
+            value: Any value that should be used for a less than check
+
         Returns:
-        An EqualityExpression
+            An EqualityExpression
+
+        For example::
+
+            Person.scan.filter(Person.age.lt(21))
         """
         return EqualityExpression("<", self, value)
 
     def lte(self, value):
         """Build an expression using the <= sign
 
+        Parameters:
+            value: Any value that should be used for a less than or equal check
+
         Returns:
-        An EqualityExpression
+            An EqualityExpression
+
+        For example::
+
+            Person.scan.filter(Person.age.lte(20))
         """
         return EqualityExpression("<=", self, value)
 
@@ -107,11 +144,15 @@ class DynamoDataType(object):
         a KeyConditionExpression. The will filter for the table for values that match
         exactly any of the values passed in as arguments
 
-        Arguments:
-        values -- anything value to use to filter the table
+        Parameters:
+            values: anything value to use to filter the table
 
         Returns:
-        An InExpression
+            An InExpression
+
+        For example::
+
+           Person.scan.filter(Person.name.in("Mom", "Dad")) 
         """
         return InExpression(self, values)
 
@@ -121,34 +162,38 @@ class DynamoDataType(object):
         Can be used in Filters or KeyConditionExpressions to create a begins_with
         expression.
 
-        Arguments:
-        value -- a substring to check if the column begins with
+        Parameters:
+            value: a substring to check if the column begins with
 
         Returns:
-        A BeginsWithExpression
+            A BeginsWithExpression
+
+        For example::
+
+            Person.scan.filter(Person.name.begins_with("Mo"))
         """
         return BeginsWithExpression(self, value)
 
     def set_column_name(self, val):
         """Update the column_name of this instance
 
-        Arguments:
-        value -- a string for the new column name
+        Parameters:
+            value: a string for the new column name
         """
         self.column_name = val
 
     def build(self, val):
-        """set the value to val or default if present
+        """build the column value based on the val passed in
 
         building is called automatically by the DynamoDataAttribute
         when the model is initialized. It will use the default value when present if
         the val passed in is None
 
-        Arguments:
-        val -- A value that will be used to build the attribute on the instance
+        Parameters:
+            val: A value that will be used to build the attribute on the instance
 
         Returns:
-        The passed in val or the default when the default is set
+            The passed in val or the default when the default is set
         """
         if val is None:
             return self._get_default(val)
