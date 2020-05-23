@@ -1,17 +1,36 @@
 from .base_expression import BaseExpression
 
 class BeginsWithExpression(BaseExpression):
-    """
-    Generate a BEGINS WITH expression
+    """A class to generate a `BEGINS WITH` expression for querying/scanning
 
-    Email.query.key(Email.generated_email.begins_with("test"))
-    ---
-    dynamodb query \
-        --table-name "Emails" \
-        --key-condition-expression "begins_with(generated_email, :email1)"
-        --expression-attribute-values '{":email1": {"S": "test"}}'
+    When using with a `QueryRequest`, a `BeginsWithExpression` can only be used on the
+    sort key. It cannot be used on the partition key
+
+    For example::
+
+        # You can use Person.email.begins_with instead!
+        expression = BeginsWithExpression(Person.email, "test")
+        Email.scan.filter(expression).build()
+        {
+            "TableName": "people",
+            "FilterExpression": "begins_with(#__email, :_email_xfdww)",
+            "ExpressionAttributeNames": {
+                "#__email": "email"
+            },
+            "ExpressionAttributeValues": {
+                ":_email_xfdww": {
+                    "S": "test@test.com"
+                }
+            }
+        }
     """
     def __init__(self, datatype, value):
+        """constructor for BeginsWithExpression
+
+        Parameters:
+            datatype: a DynamoDataType that the expression is for
+            value: a substring to check the column begins with
+        """
         super(BeginsWithExpression, self).__init__('begins_with', datatype, value)
 
     def __str__(self):
@@ -21,4 +40,4 @@ class BeginsWithExpression(BaseExpression):
         return "{expression}({attr_name}, {value})".format(
             attr_name=attr_name,
             expression=self.expression,
-            value=self.value)
+            value=self.expression_attribute_value_name)

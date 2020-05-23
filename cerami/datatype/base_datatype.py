@@ -152,7 +152,7 @@ class DynamoDataType(object):
 
         For example::
 
-           Person.scan.filter(Person.name.in("Mom", "Dad")) 
+           Person.scan.filter(Person.name.in_("Mom", "Dad")) 
         """
         return InExpression(self, values)
 

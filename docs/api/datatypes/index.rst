@@ -8,6 +8,7 @@ Datatypes
     base_datatype
     string
     number
+    boolean
     byte_buffer
     datetime
     set

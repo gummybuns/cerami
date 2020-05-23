@@ -1,22 +1,36 @@
 from .base_expression import BaseExpression
 
 class InExpression(BaseExpression):
-    """
-    Generate an IN expression
+    """A class to generate an `IN` expression for filtering
 
-    Email.scan.filter(Email.generated_email.in_("test@test.com"))
-    ---
-    dynamodb scan \
-        --table-name "Emails" \
-        --filter-expression "generated_email IN (:email1)" \
-        --expression-attribute-values '{":email1": {"S": "test@test.com"}}'
+    For example::
 
-
-    so i need to keep the expression-attribute-values the exact same:
-        value_dict() needs to just call super for each one?
-
+        # You can use Person.name.in_ instead!
+        expression = InExpression(Person.name, ["Mom", "Dad"])
+        Person.scan.filter(expression).build()
+        {
+            "TableName": "people",
+            "FilterExpression": "#__name IN (:_name_qmtxc, :_name_wzhlh)",
+            "ExpressionAttributeNames": {
+                "#__name": "name"
+            },
+            "ExpressionAttributeValues": {
+                ":_name_qmtxc": {
+                    "S": "Mom"
+                },
+                ":_name_wzhlh": {
+                    "S": "Dad"
+                }
+            }
+        }
     """
     def __init__(self, datatype, value):
+        """constructor for InExpression
+
+        Parameters:
+            datatype: a DynamoDataType that the expression is for
+            value: an array of values
+        """
         super(InExpression, self).__init__('IN', datatype, value)
         self.expression_attribute_values = self._build_expression_attribute_values()
 
@@ -31,6 +45,16 @@ class InExpression(BaseExpression):
             value_names=value_names)
 
     def value_dict(self):
+        """return the expected dict for expression-attribute-values
+
+        This is used by many of different requests when building search_attributes. Most
+        requests require the `ExpressionAttributeValue` option. This will build that
+        corresponding property for this particular expression. Since the value
+        is an array, this method overrides the ``BaseExpression`` implementation.
+
+        Returns:
+            a dict that can be used in ExpressionAttributeValue options
+        """
         return self.expression_attribute_values
 
     def _build_expression_attribute_values(self):

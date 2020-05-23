@@ -5,11 +5,50 @@
 
 Welcome to Cerami's documentation!
 ==================================
+Cerami is a python library that hopefully provides some sanity to boto3's DynamoDB client. Its intended use is as a library to help define table data through the creation of models and create sane, readable, and reproducable DynamoDB requests.
+
+As an example:
+
+.. code-block:: python
+
+    import boto3
+    from cerami import Cerami
+    from cerami.datatype import String
+    from cerami.decorators import primary_key
+
+    dynamodb = boto3.client('dynamodb')
+    db = Cerami(dynamodb)
+
+    # Configure a Model
+    @primary_key('title')
+    class Book(db.Model):
+        __tablename__ = "Books"
+        title = String()
+        author = String()
+
+    Book.scan.filter(Book.author.eq("Dav Pilkey")).execute()
+    # Replaces
+    dynamodb.scan(
+        TableName="Books",
+        FilterExpression="#a = :author",
+        ExpressionAttributeNames={"#a": "author"},
+        ExpressionAttributeValues={":author": {"S": "Dav Pilkey"}})
+
+
+    Book.query(Book.title.begins_with('Captain')).execute()
+    # Replaces
+    dynamodb.query(
+        TableName="Books"
+        KeyConditionExpression="begins_with(#t, :substr)"
+        ExpressionAttributeNames={"#t": "title"}
+        ExpressionAttributeValues={":substr": {"S": "Captain"}})
+
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   getting_started/index
    api/index
 
 Indices and tables

@@ -9,6 +9,7 @@ idna==2.9
 imagesize==1.2.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
+mock==4.0.2
 packaging==20.3
 Pygments==2.6.1
 pyparsing==2.4.7
@@ -19,6 +20,7 @@ requests==2.23.0
 six==1.14.0
 snowballstemmer==2.0.0
 Sphinx==3.0.3
+sphinx-rtd-theme==0.4.3
 sphinxcontrib-applehelp==1.0.2
 sphinxcontrib-devhelp==1.0.2
 sphinxcontrib-htmlhelp==1.0.3

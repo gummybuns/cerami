@@ -15,7 +15,7 @@ from cerami.datatype.mapper import (
     ListMapper,
     NumberMapper,
     DatetimeMapper,
-    SetMapperDecorator)
+    SetMapper)
 from cerami.datatype import (
     DynamoDataType,
     BaseString,
@@ -207,7 +207,7 @@ class TestSet(TestBase):
         assert self.dt.condition_type == "SS"
 
     def test_mapper(self):
-        assert isinstance(self.dt.mapper, SetMapperDecorator)
+        assert isinstance(self.dt.mapper, SetMapper)
 
 class TestDynamoDataType(TestBase):
     def setUp(self):

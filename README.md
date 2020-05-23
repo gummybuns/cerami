@@ -3,7 +3,7 @@
 # Setup the db singleton
 import boto3
 from cerami import Cerami
-dynamodb = boto3.client('dynamodb', endpoint_url="http://localhost:8000")
+dynamodb = boto3.client('dynamodb')
 db = Cerami(dynamodb)
 
 
@@ -45,8 +45,6 @@ Book.get\
 ```
 
 ## Setup Dynamodb / boto3
-First set up your virtualenv and install `reqs.txt`
-
 You need to install the aws2 cli and have dynamo db running locally. Dynamodb requires java to run locally as well so good luck if you dont have it. Try these steps first and see how it goes.
 
 ### Download DynamoDB Locally
@@ -75,4 +73,3 @@ us-west-1
 ```
 java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
 ```
-

@@ -3,20 +3,20 @@ from tests.helpers.testbase import TestBase
 from cerami.datatype import String
 from cerami.datatype.mapper import (
     BaseDatatypeMapper,
-    SetMapperDecorator)
+    SetMapper)
 
-class TestSetMapperDecorator(TestBase):
+class TestSetMapper(TestBase):
     def setUp(self):
         self.dt = String()
         self.mapper = BaseDatatypeMapper(self.dt)
         self.mapper.condition_type = 'S'
-        self.decorator = SetMapperDecorator(self.mapper)
+        self.decorator = SetMapper(self.mapper)
 
     def test__init__(self):
         assert self.decorator.mapper == self.mapper
 
     def test_map(self):
-        with patch("cerami.datatype.mapper.SetMapperDecorator.resolve") as resolve:
+        with patch("cerami.datatype.mapper.SetMapper.resolve") as resolve:
             resolve.return_value = 'mocked'
             res = self.decorator.map(['test'])
             assert res == {"SS": "mocked"}

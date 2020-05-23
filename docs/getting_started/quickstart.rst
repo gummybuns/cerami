@@ -1,0 +1,125 @@
+Quick Start
+===============
+
+Install
+-------
+
+.. code-block::
+
+    pip install cerami
+
+I have boto3 and aws credentials configured set up
+--------------------------------------------------
+
+.. code-block:: python
+
+    # create the db singleton
+    import boto3
+    from cerami import Cerami
+
+    dynamodb = boto3.client('dynamodb')
+    db = Cerami(dynamodb)
+
+
+.. code-block:: python
+
+    # create classes that inherit from the singleton
+    import uuid
+    from cerami.datatype import String, Set, Datetime
+    from cerami.decorators import primary_key
+
+    @primary_key('_id', 'title')
+    class Book(db.Model):
+        __tablename__ = "Books"
+
+        _id = String(default=uuid.uuid4)
+        title = String()
+        authors = Set(String())
+        comments = String()
+        published= Datetime()
+
+    # Some Query Examples
+    Book.scan \
+        .filter(Book.title.eq("My First Book")) \
+        .filter(Book.comments.eq("Awesome")) \
+        .execute()
+
+    Book.query \
+        .key(Book._id.eq("XXX")) \
+        .filter(Book.comments.eq("YYY")) \
+        .execute()
+
+    Book.get \
+        .key(Book.Schema._id.eq("XXX")) \
+        .key(Book.Schema.title.eq("ZZZ")) \
+        .execute()
+
+I have never used boto3 or dynamodb before
+------------------------------------------
+You can run DynamoDB locally!
+
+You need to install the aws2 cli and have dynamo db running locally. Dynamodb requires java to run locally as well so good luck if you dont have it. Try these steps first and see how it goes.
+
+Download DynamoDB Locally
+~~~~~~~~~~~~~~~~~~~~~~~~~
+1. `Download DynamoDB Locally`_
+2. Unzip/Untar the content
+3. Move to somewhere you wont lose it.
+
+.. _Download DynamoDB Locally: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
+
+Download the AWS2 CLI
+~~~~~~~~~~~~~~~~~~~~~
+1. `Download the AWS2 CLI`_
+2. Follow the install instructions
+
+.. _Download the AWS2 CLI`: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
+
+Configure the AWS2 CLI
+~~~~~~~~~~~~~~~~~~~~~~
+In order to run DynamoDB locally, you need to configure your aws as such:
+
+.. code-block::
+
+    aws2 configure
+
+
+.. code-block::
+
+    # These are the actual values to use with the local dynamodb instance
+    AWS Access Key ID: "fakeMyKeyId"
+    AWS Secret Access Key: "fakeSecretAccessKey"
+    us-west-1
+
+Starting DynamoDB Locally
+~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block::
+
+    java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+
+Using Cerami
+~~~~~~~~~~~~
+.. code-block:: python
+
+    # Create the db singleton
+    import boto3
+    from cerami import Cerami
+
+    dynamodb = boto3.client('dynamodb', endpoint_url="http://localhost:8000")
+    db = Cerami(dynamodb)
+
+.. code-block:: python
+
+    import uuid
+    from cerami.datatype import String, Set, Datetime
+    from cerami.decorators import primary_key
+
+    @primary_key('_id', 'title')
+    class Book(db.Model):
+        __tablename__ = "Books"
+
+        _id = String(default=uuid.uuid4)
+        title = String()
+        authors = Set(String())
+        published= Datetime()
+

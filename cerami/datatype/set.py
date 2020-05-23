@@ -1,5 +1,5 @@
 from .base_datatype import DynamoDataType
-from .mapper import SetMapperDecorator
+from .mapper import SetMapper
 
 class Set(DynamoDataType):
     """A class to represent a Set
@@ -11,6 +11,8 @@ class Set(DynamoDataType):
 
         class Parent(db.Model):
             friends = Set(String())
+
+        parent = Parent(friends=["zac", "mom", "dad"])
     """
     def __init__(self, datatype, column_name="", default=None):
         """constructor for the Set
@@ -25,5 +27,5 @@ class Set(DynamoDataType):
         """
         super(Set, self).__init__(column_name=column_name, default=default)
         self.datatype = datatype
-        self.mapper = SetMapperDecorator(self.datatype.mapper)
+        self.mapper = SetMapper(self.datatype.mapper)
         self.condition_type = self.datatype.condition_type + "S"

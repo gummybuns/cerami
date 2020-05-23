@@ -1,4 +1,5 @@
 from .base_datatype import DynamoDataType
+from .boolean import Boolean
 from .base_number import BaseNumber
 from .base_string import BaseString
 from .byte_buffer import ByteBuffer

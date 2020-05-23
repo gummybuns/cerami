@@ -37,13 +37,13 @@ class TestListMapper(TestBase):
         and returns a dict with the mapped value
         """
         mocked_dt = Mock()
-        mocked_dt.mapper.map.return_value = "mocked"
+        mocked_dt.mapper.resolve.return_value = "mocked"
         self.mocked_map_guesser.guess.return_value = mocked_dt
         val = ['test']
         res = self.mapper.map(val)
         assert res == {'L': ['mocked']}
         self.mocked_map_guesser.guess.assert_called_with(0, 'test')
-        mocked_dt.mapper.map.assert_called_with('test')
+        mocked_dt.mapper.resolve.assert_called_with('test')
 
     def test_parse(self):
         """it uses guesser to find the correct datatype

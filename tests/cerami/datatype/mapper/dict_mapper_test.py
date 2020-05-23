@@ -40,7 +40,7 @@ class TestDictMapper(TestBase):
         mocked_dt.mapper.reconstruct.return_value = "mocked"
         self.mocked_parse_guesser.guess.return_value = mocked_dt
         mapped_dict = {'M': {'testkey': {'S': 'testval'}}}
-        assert self.mapper.parse(mapped_dict) == {'testkey': 'mocked'}
+        assert self.mapper.reconstruct(mapped_dict) == {'testkey': 'mocked'}
         self.mocked_parse_guesser.guess.assert_called_with(
             'testkey',
             {'S': 'testval'})
