@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cerami",
-    version="0.1.7",
+    version="0.2.1",
     author="Zac Brown",
     author_email="gummybuns@protonmail.com",
     description="A Dynamodb ORM",
@@ -21,5 +21,6 @@ setuptools.setup(
     python_requires='>=3.6',
     install_requires=[
         'boto3',
+        'dateutil',
     ],
 )
