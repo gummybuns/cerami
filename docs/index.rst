@@ -41,7 +41,7 @@ As an example:
         TableName="Books"
         KeyConditionExpression="#t = :title"
         ExpressionAttributeNames={"#t": "title"}
-        ExpressionAttributeValues={":title": {"S": "Captain"}})
+        ExpressionAttributeValues={":title": {"S": "Captain Underpants"}})
 
 
 .. toctree::
