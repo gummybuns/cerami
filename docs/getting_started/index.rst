@@ -8,3 +8,4 @@ Getting Started
     quickstart
     using_models
     classlevel_operations
+    customizing_datatypes
