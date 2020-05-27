@@ -35,7 +35,7 @@ As an example:
         ExpressionAttributeValues={":author": {"S": "Dav Pilkey"}})
 
 
-    Book.query(Book.title.eq('Captain Underpants')).execute()
+    Book.query.key(Book.title.eq('Captain Underpants')).execute()
     # Replaces
     dynamodb.query(
         TableName="Books"
