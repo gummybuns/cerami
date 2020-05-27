@@ -21,9 +21,9 @@ db = Cerami(dynamodb)
 # Configure a Model
 @primary_key('title')
 class Book(db.Model):
-__tablename__ = "Books"
-title = String()
-author = String()
+    __tablename__ = "Books"
+    title = String()
+    author = String()
 
 Book.scan.filter(Book.author.eq("Dav Pilkey")).execute()
 ```
