@@ -2,7 +2,7 @@ from mock import Mock, patch
 from tests.helpers.testbase import TestBase
 from cerami.response import SearchResponse
 from cerami.request import ScanRequest
-from cerami.request.mixins import Filterable, Projectable, Limitable
+from cerami.request.mixins import Filterable, Projectable, Limitable, Pageable
 
 class TestScanRequest(TestBase):
     def setUp(self):
@@ -19,6 +19,9 @@ class TestScanRequest(TestBase):
 
     def test_is_projectable(self):
         assert isinstance(self.request, Projectable)
+
+    def test_is_pageable(self):
+        assert isinstance(self.request, Pageable)
 
     def test_execute(self):
         """it calls scan with the build

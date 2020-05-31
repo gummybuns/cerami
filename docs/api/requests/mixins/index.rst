@@ -25,6 +25,11 @@ Limitable
 .. autoclass:: cerami.request.mixins.Limitable
     :members:
 
+Pageable
+--------
+.. autoclass:: cerami.request.mixins.Pageable
+    :members:
+
 Projectable
 -----------
 .. autoclass:: cerami.request.mixins.Projectable

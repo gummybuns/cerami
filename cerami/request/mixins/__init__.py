@@ -4,3 +4,4 @@ from .keyable import Keyable
 from .returnable import Returnable
 from .projectable import Projectable
 from .limitable import Limitable
+from .pageable import Pageable

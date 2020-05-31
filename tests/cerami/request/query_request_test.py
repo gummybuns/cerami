@@ -8,7 +8,7 @@ from cerami.request.search_attribute import (
     SearchAttribute,
     DictAttribute,
     QueryExpressionAttribute)
-from cerami.request.mixins import Filterable, Projectable, Limitable
+from cerami.request.mixins import Filterable, Projectable, Limitable, Pageable
 
 class TestModel(Model):
     test = String()
@@ -33,6 +33,9 @@ class TestQueryRequest(TestBase):
 
     def test_is_limitable(self):
         assert isinstance(self.request, Limitable)
+
+    def test_is_pageable(self):
+        assert isinstance(self.request, Pageable)
 
     def test_index(self):
         """it adds the IndexName to the request"""

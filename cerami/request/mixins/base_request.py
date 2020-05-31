@@ -78,6 +78,7 @@ class BaseRequest(object):
         request_attribute = self.request_attributes.get(name, attr_class())
         request_attribute.add(value)
         self.request_attributes[name] = request_attribute
+        return self
 
     def build(self):
         """build the dict used by dynamodb

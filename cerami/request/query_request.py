@@ -1,11 +1,11 @@
-from .mixins import BaseRequest, Filterable, Keyable, Projectable, Limitable
+from .mixins import BaseRequest, Filterable, Keyable, Projectable, Limitable, Pageable
 from ..response import SearchResponse
 from .search_attribute import (
     SearchAttribute,
     DictAttribute,
     QueryExpressionAttribute)
 
-class QueryRequest(BaseRequest, Filterable, Projectable, Limitable):
+class QueryRequest(BaseRequest, Filterable, Projectable, Limitable, Pageable):
     """ A class to perform the query request"""
 
     def execute(self):
