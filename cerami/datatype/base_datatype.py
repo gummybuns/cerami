@@ -201,7 +201,7 @@ class DynamoDataType(object):
 
     def _get_default(self, val=None):
         """get the default value from the datatype"""
-        if self.default:
+        if self.default is not None:
             if callable(self.default):
                 return self.default()
             else:
