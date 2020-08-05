@@ -46,6 +46,26 @@ class TestQueryRequest(TestBase):
             'IndexName',
             'test-index')
 
+    def test_index_reverse(self):
+        """it calls scan_index_forward(False) when reverse is true"""
+        self.request.add_attribute = Mock()
+        self.request.scan_index_forward = Mock()
+        self.request.index('test-index', reverse=True)
+        self.request.scan_index_forward.assert_called_with(False)
+        self.request.add_attribute.assert_called_with(
+            SearchAttribute,
+            'IndexName',
+            'test-index')
+
+    def test_scan_index_forward(self):
+        """it adds the ScanIndexForward attribute to the request"""
+        self.request.add_attribute = Mock()
+        self.request.scan_index_forward(False)
+        self.request.add_attribute.assert_called_with(
+            SearchAttribute,
+            'ScanIndexForward',
+            False)
+
     def test_execute(self):
         """it calls query with the build
         it returns a SearchResponse"""

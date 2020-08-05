@@ -21,7 +21,7 @@ class QueryRequest(BaseRequest, Filterable, Projectable, Limitable, Pageable):
         response = self.client.query(**self.build())
         return SearchResponse(response, self.reconstructor)
 
-    def index(self, index_name):
+    def index(self, index_name, reverse=False):
         """add IndexName to the search_attributes
 
         Adds the IndexName to the request_attributes dict
@@ -29,6 +29,8 @@ class QueryRequest(BaseRequest, Filterable, Projectable, Limitable, Pageable):
         Parameters:
             index_name: a string of the index to query. It can be a local secondary
                 index or global secondary index on the table
+            reverse: a flag, that when true automatically sets `ScanIndexForward` to
+                False.
 
         Returns:
             the instance of this class
@@ -51,6 +53,40 @@ class QueryRequest(BaseRequest, Filterable, Projectable, Limitable, Pageable):
             }
         """
         self.add_attribute(SearchAttribute, 'IndexName', index_name)
+        if reverse:
+            self.scan_index_forward(False)
+        return self
+
+    def scan_index_forward(self, value):
+        """add the ScanIndexForward search_attribute
+
+        It is used to reverse the sorting of the response
+
+        Parameters:
+            value: a boolean that specifies the ordering. Setting to `False` will reverse
+                the order
+
+        Returns:
+            the instance of this class
+
+        For example::
+
+            Person.query.key(Person.name.eq('Mom')).scan_index_forward(False).build()
+            {
+                "TableName": "people",
+                "KeyConditionExpression": "#__name = :_name_lrhve",
+                "ExpressionAttributeNames": {
+                    "#__name": "name"
+                },
+                "ScanIndexForward": False,
+                "ExpressionAttributeValues": {
+                    ":_name_lrhve": {
+                        "S": "Mom"
+                    }
+                }
+            }
+        """
+        self.add_attribute(SearchAttribute, 'ScanIndexForward', value)
         return self
 
     def key(self, *expressions):
