@@ -7,14 +7,14 @@ class BooleanMapper(BaseDatatypeMapper):
     
         mapper = BooleanMapper(Boolean())
         mapper.map(True)
-        {'BOOL': 1}
+        {'BOOL': True}
 
-        mapper.reconstruct({'BOOL': 1})
+        mapper.reconstruct({'BOOL': True})
         True
     """
 
     def resolve(self, value):
-        return 1 if bool(value) else 0
+        return bool(value)
 
     def parse(self, value):
         return bool(value)

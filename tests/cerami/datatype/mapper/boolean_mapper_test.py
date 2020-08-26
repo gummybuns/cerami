@@ -9,11 +9,11 @@ class TestBooleanMapper(TestBase):
 
     def test_resolve(self):
         """it returns 1 for True 0 for False"""
-        assert self.mapper.resolve(True) == 1
-        assert self.mapper.resolve(False) == 0
+        assert self.mapper.resolve(True) == True
+        assert self.mapper.resolve(False) == False
 
     def test_parse(self):
         """it returns True for truthy values False for falsey values"""
-        assert self.mapper.parse(1)
-        assert not self.mapper.parse(0)
+        assert self.mapper.parse(True)
+        assert not self.mapper.parse(False)
 
