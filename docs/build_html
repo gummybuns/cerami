@@ -1,0 +1,2 @@
+# I cant get make html to work from my FreeBSD machine but this does :(
+sphinx-build -b html . _build

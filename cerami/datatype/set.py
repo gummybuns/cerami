@@ -29,3 +29,20 @@ class Set(DynamoDataType):
         self.datatype = datatype
         self.mapper = SetMapper(self.datatype.mapper)
         self.condition_type = self.datatype.condition_type + "S"
+
+    def contains(self, value):
+        """Build a ContainsExpression
+
+        Can be used in Filters only, cannot be part of a KeyConditionExpression
+
+        Parameters:
+            value: the value to filter upon
+
+        Returns:
+            A ContainsExpression
+
+        For example::
+
+            Person.scan.filter(Painting.colors.contains("red"))
+        """
+        return ContainsExpression(self, value)

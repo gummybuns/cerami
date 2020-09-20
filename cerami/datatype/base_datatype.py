@@ -1,6 +1,5 @@
 from .expression import (
     EqualityExpression,
-    BeginsWithExpression,
     InExpression)
 
 class DynamoDataType(object):
@@ -78,24 +77,6 @@ class DynamoDataType(object):
            Person.scan.filter(Person.name.in_("Mom", "Dad")) 
         """
         return InExpression(self, values)
-
-    def begins_with(self, value):
-        """Build a BeginsWithExpression
-
-        Can be used in Filters or KeyConditionExpressions to create a begins_with
-        expression.
-
-        Parameters:
-            value: a substring to check if the column begins with
-
-        Returns:
-            A BeginsWithExpression
-
-        For example::
-
-            Person.scan.filter(Person.name.begins_with("Mo"))
-        """
-        return BeginsWithExpression(self, value)
 
     def set_column_name(self, val):
         """Update the column_name of this instance
