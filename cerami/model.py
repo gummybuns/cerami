@@ -206,7 +206,7 @@ class Model(object, metaclass=ModelMeta):
         deleter = self.__class__.delete
         for column in self._primary_key:
             column_name = column.column_name
-            deleter = deleter.key(column.eq(getattr(self.data, column_name)))
+            deleter = deleter.key(column == getattr(self.data, column_name))
         return deleter.execute()
 
     def put(self):
@@ -233,11 +233,11 @@ class Model(object, metaclass=ModelMeta):
         updater = self.__class__.update
         for column in self._primary_key:
             column_name = column.column_name
-            updater.key(column.eq(getattr(self, column_name)))
+            updater.key(column == getattr(self, column_name))
         for column in self._columns:
             column_name = column.column_name
             attr = self._get_full_attribute(column_name)
             if (not column in self._primary_key
                 and (attr.initialized or attr._changed)):
-                updater.set(column.eq(attr.value))
+                updater.set(column, attr.value)
         return updater.execute()

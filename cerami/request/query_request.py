@@ -16,7 +16,7 @@ class QueryRequest(BaseRequest, Filterable, Projectable, Limitable, Pageable):
 
         For example::
 
-            Person.query.key(Person.email.eq("test@test.com")).execute()
+            Person.query.key(Person.email == "test@test.com").execute()
         """
         response = self.client.query(**self.build())
         return SearchResponse(response, self.reconstructor)
@@ -37,7 +37,7 @@ class QueryRequest(BaseRequest, Filterable, Projectable, Limitable, Pageable):
 
         For example::
 
-            Person.query.index("MyGlobalIndex).key(Person.name.eq('Mom')).build()
+            Person.query.index("MyGlobalIndex).key(Person.name == 'Mom').build()
             {
                 "TableName": "people",
                 "IndexName": "MyGlobalIndex",
@@ -71,7 +71,7 @@ class QueryRequest(BaseRequest, Filterable, Projectable, Limitable, Pageable):
 
         For example::
 
-            Person.query.key(Person.name.eq('Mom')).scan_index_forward(False).build()
+            Person.query.key(Person.name == 'Mom').scan_index_forward(False).build()
             {
                 "TableName": "people",
                 "KeyConditionExpression": "#__name = :_name_lrhve",

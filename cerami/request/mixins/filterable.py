@@ -19,7 +19,7 @@ class Filterable(object):
 
         For example::
 
-            Person.scan.filter(Person.name.eq('Zac')).filter(Person.age.lt(50)).build()
+            Person.scan.filter(Person.name == 'Zac').filter(Person.age < 50).build()
             {
                 "TableName": "people",
                 "FilterExpression": "#__name = :_name_pwmbx and #__age < :_age_twtue",

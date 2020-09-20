@@ -25,5 +25,5 @@ class Book(db.Model):
     title = String()
     author = String()
 
-Book.scan.filter(Book.author.eq("Dav Pilkey")).execute()
+Book.scan.filter(Book.author == "Dav Pilkey").execute()
 ```

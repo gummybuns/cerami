@@ -31,7 +31,7 @@ class BaseNumber(DynamoDataType):
 
         For example::
 
-            Person.update.key(Person.email.eq("test@test.com")).set(Person.age.add(10))
+            Person.update.key(Person.email == "test@test.com").set(Person.age.add(10))
         """
         return ArithmeticExpression('+', self, value)
 
@@ -44,7 +44,7 @@ class BaseNumber(DynamoDataType):
         For example::
 
             Person.update \\
-                .key(Person.email.eq("test@test.com")) \\
+                .key(Person.email == "test@test.com") \\
                 .set(Person.age.subtract(10))
         """
         return ArithmeticExpression('-', self, value)

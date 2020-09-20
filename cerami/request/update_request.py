@@ -1,6 +1,9 @@
+from functools import singledispatch
 from .mixins import BaseRequest, Keyable, Returnable
 from ..response import SaveResponse
+from ..datatype import DynamoDataType
 from ..datatype.expression import (
+    BaseExpression,
     UpdateRemoveExpression,
     EqualityExpression)
 from .search_attribute import (
@@ -21,28 +24,47 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
         For example::
 
             Person.update \\
-                .key(Person.email.eq('test@test.com')) \\
-                .set(Person.name.eq('Mommy')) \\
+                .key(Person.email == 'test@test.com') \\
+                .set(Person.name, 'Mommy') \\
                 .execute()
         """
         response = self.client.update_item(**self.build())
         return SaveResponse(response, self.reconstructor)
 
-    def set(self, *expressions):
+    def set(self, expression_or_datatype, value=None):
         """Add a SET statement to the UpdateExpression
 
         The UpdateExpression is a comma separated list of instructions to perform on the
         table. SET will change the value or put the value if it does not exist.
 
+        Sorry, i dont know how to do method overloading in python yet, so were stuck with
+        this garbage..
+
         Parameters:
-            *expressions: a list of BaseExpressions. In practice though, the expressions
-                should all be EqualityExpressions using '=' (Model.column.eq('...'))
+            datatype_or_expresion: a DynamoDataType or BaseExpresion object to change
+            value: the value to change the datatype
 
         Returns:
             the caller of the method. This allows for chaining
+
+        For example::
+
+            Person.update \\
+                .key(Person.email == "test@test.com") \\
+                .set(Person.name, "Zac") \\
+                .execute()
+
+            Person.update \\
+                .key(Person.email == "test@test.com") \\
+                .set(Person.age.add(10))
+                .execute()
         """
-        for expression in expressions:
-            self.update_expression('SET', expression)
+        if isinstance(expression_or_datatype, BaseExpression):
+            return self.update_expression('SET', expression_or_datatype)
+        self.update_expression(
+            'SET',
+            EqualityExpression('=', expression_or_datatype, value),
+        )
         return self
 
     def remove(self, *datatypes):
@@ -61,7 +83,7 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
         For example::
 
             Person.update \\
-                .key(Person.email.eq("test@test.com")) \\
+                .key(Person.email == "test@test.com") \\
                 .remove(Person.name) \\
                 .build()
             {
@@ -102,7 +124,7 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
 
         For example::
 
-            Person.update.key(Person.email.eq("test@test.com")).add(Person.age, 10).build()
+            Person.update.key(Person.email == "test@test.com").add(Person.age, 10).build()
             {
                 "TableName": "people",
                 "ReturnValues": "ALL_NEW",
@@ -142,7 +164,7 @@ class UpdateRequest(BaseRequest, Keyable, Returnable):
         For example::
 
             Person.update \\
-                .key(Person.email.eq("test@test.com")) \\
+                .key(Person.email == "test@test.com") \\
                 .delete(Person.tags, ["cool", "awesome"]) \\
                 .build()
             {

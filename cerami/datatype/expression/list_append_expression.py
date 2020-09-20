@@ -10,7 +10,7 @@ class ListAppendExpression(BaseExpression):
 
        # you can use Person.toys.append() instead!
        expression = ListAppendExpression(Person.toys, [{"color": "red", "name": "car"}]) 
-       Person.update.key(Person.email.eq("test@test.com")).set(expression).build()
+       Person.update.key(Person.email == "test@test.com").set(expression).build()
         {
             "TableName": "people",
             "ReturnValues": "ALL_NEW",

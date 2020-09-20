@@ -12,7 +12,7 @@ class DeleteRequest(BaseRequest, Keyable, Returnable):
 
         For example::
 
-            Person.delete.key(Person.email.eq('test@test.com')).execute()
+            Person.delete.key(Person.email == 'test@test.com').execute()
         """
         response = self.client.delete_item(**self.build())
         return DeleteResponse(response, self.reconstructor)

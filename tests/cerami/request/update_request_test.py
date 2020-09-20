@@ -3,6 +3,8 @@ from tests.helpers.testbase import TestBase
 from cerami.response import SaveResponse
 from cerami.request import UpdateRequest
 from cerami.request.mixins import Keyable, Returnable
+from cerami.datatype import String
+from cerami.datatype.expression import EqualityExpression
 from cerami.request.search_attribute import (
     UpdateExpressionAttribute,
     UpdateAction,
@@ -25,7 +27,7 @@ class TestUpdateRequest(TestBase):
 
     def test_set(self):
         """it adds the SET attribute"""
-        fake_expression = {'fake': True}
+        expression = EqualityExpression('=', String(), 'test')
         self.request.update_expression = Mock()
-        self.request.set(fake_expression)
-        self.request.update_expression.assert_called_with('SET', fake_expression)
+        self.request.set(expression)
+        self.request.update_expression.assert_called_with('SET', expression)

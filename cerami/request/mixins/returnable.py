@@ -19,8 +19,8 @@ class Returnable(object):
 
             from cerami.request.return_values import UPDATED_NEW
             Person.update \\
-                .key(Person.email.eq('test@test.com')) \\
-                .set(Person.name.eq('new name')) \\
+                .key(Person.email == 'test@test.com') \\
+                .set(Person.name, 'new name') \\
                 .returns(UPDATED_NEW) \\
                 .build()
             {

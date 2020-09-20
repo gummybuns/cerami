@@ -31,7 +31,7 @@ class TestSearchRequest(TestBase):
         """it adds FilterExpression, ExpresionAttributeNames,
         ExpressionAttributeValues"""
         with patch("cerami.request.SearchRequest.add_attribute") as add:
-            expression = TestModel.test.eq('123')
+            expression = TestModel.test == '123'
             names = {}
             names[expression.expression_attribute_name] = 'test'
 

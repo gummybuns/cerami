@@ -16,7 +16,7 @@ class BaseRequest(object):
             a SearchAttribute that resolves to a string of filters. This is typically
             None but can be used to manually build requests::
 
-                Parent.scan.filter(Parent.name.eq('Mom')).project(Parent.name)
+                Parent.scan.filter(Parent.name == 'Mom').project(Parent.name)
                 # The search_attributes can be manually specified
                 ScanRequest(client=client, tablename='parents', search_attributes={
                     'FilterExpression': SearchAttribute('name = Mom'),
@@ -39,7 +39,7 @@ class BaseRequest(object):
                 a SearchAttribute that resolves to a string of filters. This is typically
                 None but can be used to manually build requests::
 
-                    Parent.scan.filter(Parent.name.eq('Mom')).project(Parent.name)
+                    Parent.scan.filter(Parent.name == 'Mom').project(Parent.name)
                     # The search_attributes can be manually specified
                     ScanRequest(client=client, tablename='parents', search_attributes={
                         'FilterExpression': SearchAttribute('name = Mom'),
@@ -89,7 +89,7 @@ class BaseRequest(object):
 
         For example::
 
-            User.scan.filter(User.email.eq('test@test.com')).build()
+            User.scan.filter(User.email == 'test@test.com').build()
             {
                 "TableName": "Users",
                 "FilterExpression": "#__email = :_email_dpxqm",

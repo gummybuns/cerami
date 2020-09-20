@@ -18,7 +18,7 @@ class TestKeyable(TestBase):
     def test_key(self):
         """it adds Key"""
         self.request.add_attribute = Mock()
-        expression = TestModel.test.eq('123')
+        expression = TestModel.test == '123'
         key_dict = {}
         key_dict[expression.datatype.column_name] = expression.attribute_map()
 

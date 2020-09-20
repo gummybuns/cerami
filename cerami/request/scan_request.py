@@ -12,7 +12,7 @@ class ScanRequest(BaseRequest, Filterable, Projectable, Limitable, Pageable):
 
         For example::
 
-            Person.scan.filter(Person.name.eq("Mom")).execute()
+            Person.scan.filter(Person.name == "Mom").execute()
         """
         response = self.client.scan(**self.build())
         return SearchResponse(response, self.reconstructor)

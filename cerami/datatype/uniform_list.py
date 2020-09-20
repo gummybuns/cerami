@@ -35,7 +35,7 @@ class UniformList(List):
 
         For example::
 
-            MyModel.scan.filter(MyModel.number_list.index(2).eq(100)).execute()
+            MyModel.scan.filter(MyModel.number_list.index(2) == 100).execute()
         """
         dt = deepcopy(self.datatype)
         dt._index = idx

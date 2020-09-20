@@ -16,7 +16,7 @@ class Keyable(object):
 
         For example::
         
-            Person.get.key(Person.email.eq('test@test.com')).build()
+            Person.get.key(Person.email == 'test@test.com').build()
             {
                 "TableName": "people",
                 "Key": {

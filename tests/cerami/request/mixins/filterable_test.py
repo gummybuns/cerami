@@ -21,7 +21,7 @@ class TestFilterable(TestBase):
         """it adds FilterExpression, ExpresionAttributeNames,
         ExpressionAttributeValues"""
         self.request.add_attribute = Mock()
-        expression = TestModel.test.eq('123')
+        expression = TestModel.test == '123'
         names = {}
         names[expression.expression_attribute_name] = 'test'
 

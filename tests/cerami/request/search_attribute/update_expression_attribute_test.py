@@ -18,15 +18,15 @@ class TestUpdateExpressionAttribute(TestBase):
 
     def test_add(self):
         """it adds the expression to the array"""
-        expression = FakeModel.test.eq('test')
+        expression = FakeModel.test == 'test'
         update_action = UpdateAction('SET', expression)
         self.attribute.add(update_action)
         assert self.attribute.value['SET'] == [expression]
 
     def test_add_appends(self):
         """it appends to the existing value key"""
-        expression1 = FakeModel.test.eq('test')
-        expression2 = FakeModel.test2.eq('test2')
+        expression1 = FakeModel.test == 'test'
+        expression2 = FakeModel.test2 == 'test2'
         update_action1 = UpdateAction('SET', expression1)
         update_action2 = UpdateAction('SET', expression2)
         self.attribute.add(update_action1)

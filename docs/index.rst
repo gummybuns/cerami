@@ -26,7 +26,7 @@ As an example:
         title = String()
         author = String()
 
-    Book.scan.filter(Book.author.eq("Dav Pilkey")).execute()
+    Book.scan.filter(Book.author == "Dav Pilkey").execute()
     # Replaces
     dynamodb.scan(
         TableName="Books",
@@ -35,7 +35,7 @@ As an example:
         ExpressionAttributeValues={":author": {"S": "Dav Pilkey"}})
 
 
-    Book.query.key(Book.title.eq('Captain Underpants')).execute()
+    Book.query.key(Book.title == 'Captain Underpants').execute()
     # Replaces
     dynamodb.query(
         TableName="Books"

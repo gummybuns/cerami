@@ -9,7 +9,7 @@ class ModelMap(DynamoDataType):
     the nested attributes. This allows direct reference to nested keys when making
     requests. For example::
 
-        Parent.scan.filter(Parent.child.name.eq('Zac'))
+        Parent.scan.filter(Parent.child.name == 'Zac')
     """
 
     def __init__(self, model_cls, mapper_cls=ModelMapper, column_name=""):

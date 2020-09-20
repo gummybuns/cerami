@@ -216,33 +216,33 @@ class TestDynamoDataType(TestBase):
         self.dt.mapper = StringMapper(self.dt)
         self.dt.condition_type = "S"
 
-    def test_eq(self):
-        res = self.dt.eq(1)
+    def test__eq__(self):
+        res = self.dt == 1
         assert isinstance(res, EqualityExpression)
         assert res.expression == "="
-        
-    def test_neq(self):
-        res = self.dt.neq(1)
+
+    def test__ne__(self):
+        res = self.dt != 1
         assert isinstance(res, EqualityExpression)
         assert res.expression == "<>"
 
-    def test_gt(self):
-        res = self.dt.gt(1)
+    def test__gt__(self):
+        res = self.dt > 1
         assert isinstance(res, EqualityExpression)
         assert res.expression == ">"
 
-    def test_gte(self):
-        res = self.dt.gte(1)
+    def test__ge__(self):
+        res = self.dt >= 1
         assert isinstance(res, EqualityExpression)
         assert res.expression == ">="
 
-    def test_lt(self):
-        res = self.dt.lt(1)
+    def test__lt__(self):
+        res = self.dt < 1
         assert isinstance(res, EqualityExpression)
         assert res.expression == "<"
 
-    def test_lte(self):
-        res = self.dt.lte(1)
+    def test__le__(self):
+        res = self.dt <= 1
         assert isinstance(res, EqualityExpression)
         assert res.expression == "<="
 

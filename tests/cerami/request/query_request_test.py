@@ -81,7 +81,7 @@ class TestQueryRequest(TestBase):
 
     def test_key(self):
         self.request.add_attribute = Mock()
-        expression = TestModel.test.eq('123')
+        expression = TestModel.test == '123'
         names = {}
         names[expression.expression_attribute_name] = 'test'
 

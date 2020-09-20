@@ -9,7 +9,7 @@ class SearchAttribute(object):
     All Request methods return a reference to the caller, so it is possible to chain
     multiple methods of the same thing together.  For example:: 
 
-        Model.filter(Model.column1.eq(1)).filter(Model.column2.eq(2))
+        Model.filter(Model.column1 == 1).filter(Model.column2 == 2)
 
     The search attribute needs to decide how to handle duplicate calls. It may want
     to overwrite the first value, or do something to append them, That logic is
@@ -33,7 +33,7 @@ class SearchAttribute(object):
 
         All Request methods return a reference to the caller, so it is possible to chain
         multiple methods of the same thing together.
-        For example, Model.filter(Model.column1.eq(1)).filter(Model.column2.eq(2))
+        For example, Model.filter(Model.column1 == 1).filter(Model.column2 == 2)
 
         The search attribute needs to decide how to handle duplicate calls. It may want
         to overwrite the first value, or do something to append them, That logic is

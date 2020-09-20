@@ -42,100 +42,23 @@ class DynamoDataType(object):
         self.condition_type = condition_type
         self.mapper = mapper_cls(self) if mapper_cls else None
 
-    def eq(self, value):
-        """Build an expression using the = sign
+    def __eq__(self, value):
+        return EqualityExpression('=', self, value)
 
-        Used for performing searching exact matches when querying and scanning. It is also
-        used in save requests to update and put values on columns
+    def __ne__(self, value):
+        return EqualityExpression('<>', self, value)
 
-        Paremeters:
-            value: Any value that should be used for an equality check
+    def __lt__(self, value):
+        return EqualityExpression('<', self, value)
 
-        Returns:
-            An EqualityExpression
+    def __le__(self, value):
+        return EqualityExpression('<=', self, value)
 
-        For example::
+    def __gt__(self, value):
+        return EqualityExpression('>', self, value)
 
-            Person.scan.filter(Person.name.eq("Mom"))
-            Person.update.key(Person.email.eq("test@test.com")).set(Person.name.eq("Dad"))
-        """
-        return EqualityExpression("=", self, value)
-
-    def neq(self, value):
-        """Build an expression using the <> sign
-
-        Parameters:
-            value: Any value that should be used for an not equal check
-
-        Returns:
-            An EqualityExpression
-
-        For example::
-
-            Person.scan.filter(Person.name.neq("Mom"))
-        """
-        return EqualityExpression("<>", self, value)
-
-    def gt(self, value):
-        """Build an expression using the > sign
-
-        Parameters:
-            value: Any value that should be used for a greater than check
-
-        Returns:
-            An EqualityExpression
-
-        For example::
-
-            Person.scan.filter(Person.age.gt(20))
-        """
-        return EqualityExpression(">", self, value)
-
-    def gte(self, value):
-        """Build an expression using the >= sign
-
-        Parameters:
-            value: Any value that should be used for a greater than or equal check
-        
-        Returns:
-            An EqualityExpression
-
-        For example::
-
-            Person.scan.filter(Person.age.gte(21))
-        """
-        return EqualityExpression(">=", self, value)
-
-    def lt(self, value):
-        """Build an expression using the < sign
-
-        
-        Parameters:
-            value: Any value that should be used for a less than check
-
-        Returns:
-            An EqualityExpression
-
-        For example::
-
-            Person.scan.filter(Person.age.lt(21))
-        """
-        return EqualityExpression("<", self, value)
-
-    def lte(self, value):
-        """Build an expression using the <= sign
-
-        Parameters:
-            value: Any value that should be used for a less than or equal check
-
-        Returns:
-            An EqualityExpression
-
-        For example::
-
-            Person.scan.filter(Person.age.lte(20))
-        """
-        return EqualityExpression("<=", self, value)
+    def __ge__(self, value):
+        return EqualityExpression('>=', self, value)
 
     def in_(self, *values):
         """Build an InExpression

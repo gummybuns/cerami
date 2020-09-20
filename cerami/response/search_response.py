@@ -38,7 +38,7 @@ class SearchResponse(Response):
 
         For example::
 
-            response = Person.scan.filter(Person.age.lt(100)).execute()
+            response = Person.scan.filter(Person.age < 100).execute()
             for person in response.items:
                 print(person.name)
         """

@@ -12,7 +12,7 @@ class GetRequest(BaseRequest, Keyable, Projectable):
 
         For example::
 
-            Person.get.key(Person.email.eq('test@test.com')).execute()
+            Person.get.key(Person.email == 'test@test.com').execute()
         """
         response = self.client.get_item(**self.build())
         return GetResponse(response, self.reconstructor)

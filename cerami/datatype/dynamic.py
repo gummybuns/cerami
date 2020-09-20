@@ -143,7 +143,7 @@ class Map(DynamoDataType):
 
         For example::
 
-            Parent.scan.filter(MyModel.child.key(String(), 'name').eq('Zac'))
+            Parent.scan.filter(MyModel.child.key(String(), 'name') == 'Zac')
         """
         column_name = self.column_name + "." + key
         return type(datatype)(column_name=column_name)
@@ -198,7 +198,7 @@ class List(DynamoDataType):
         For example::
 
             Person.update \\
-                .key(Person.email.eq("test@test.com"))
+                .key(Person.email == "test@test.com")
                 .set(Person.toys.append({"color": "red", "name": "car"})
         """
         if not isinstance(array, list):
@@ -223,7 +223,7 @@ class List(DynamoDataType):
 
         For example::
 
-            MyModel.scan.filter(MyModel.my_list.index(1, String()).eq('world'))
+            MyModel.scan.filter(MyModel.my_list.index(1, String()) == 'world')
         """
         if not isinstance(datatype, DynamoDataType):
             raise ValueError("datatype must be an instance of DynamoDataType")

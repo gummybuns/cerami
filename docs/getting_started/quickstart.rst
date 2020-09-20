@@ -40,18 +40,18 @@ I have boto3 and aws credentials configured set up
 
     # Some Query Examples
     Book.scan \
-        .filter(Book.title.eq("My First Book")) \
-        .filter(Book.comments.eq("Awesome")) \
+        .filter(Book.title == "My First Book") \
+        .filter(Book.comments == "Awesome") \
         .execute()
 
     Book.query \
-        .key(Book._id.eq("XXX")) \
-        .filter(Book.comments.eq("YYY")) \
+        .key(Book._id == "XXX") \
+        .filter(Book.comments == "YYY") \
         .execute()
 
     Book.get \
-        .key(Book.Schema._id.eq("XXX")) \
-        .key(Book.Schema.title.eq("ZZZ")) \
+        .key(Book._id == "XXX") \
+        .key(Book.title == "ZZZ") \
         .execute()
 
 I have never used boto3 or dynamodb before
