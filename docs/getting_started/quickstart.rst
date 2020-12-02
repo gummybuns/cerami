@@ -97,6 +97,46 @@ Starting DynamoDB Locally
 
     java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
 
+
+Creating a DynamoDB Table
+~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block:: python
+
+    import boto3
+
+    dynamodb = boto3.client('dynamodb', endpoint_url="http://localhost:8000")
+
+    # Create a table with the primary partition key being an _id
+    # Use the title as a sort key
+    dynamodb.create_table(
+        TableName='Books',
+        KeySchema=[
+            {
+                'AttributeName': '_id',
+                'KeyType': 'HASH'  #Partition key
+            },
+            {
+                'AttributeName': 'title',
+                'KeyType': 'RANGE'  #Sort key
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': '_id',
+                'AttributeType': 'S'
+            },
+            {
+                'AttributeName': 'title',
+                'AttributeType': 'S'
+            },
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 10,
+            'WriteCapacityUnits': 10
+        }
+    )
+
+
 Using Cerami
 ~~~~~~~~~~~~
 .. code-block:: python
