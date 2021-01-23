@@ -4,7 +4,7 @@ Cerami is a python library that hopefully provides some sanity to boto3's Dynamo
 
 Please read the `Full Documentation`_
 
-.. _Full Documentation: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
+.. _Full Documentation: https://cerami.readthedocs.io/en/latest/ 
 
 Quickstart
 ==========
