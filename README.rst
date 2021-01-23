@@ -1,6 +1,13 @@
-Quick Start
-===============
+Cerami
+======
 Cerami is a python library that hopefully provides some sanity to boto3's DynamoDB client. Its intended use is as a library to help define table data through the creation of models and create sane, readable, and reproducable DynamoDB requests.
+
+Please read the `Full Documentation`_
+
+.. _Full Documentation: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
+
+Quickstart
+==========
 
 Install
 -------
