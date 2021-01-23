@@ -3,11 +3,11 @@ Customizing Datatypes
 
 While DynamoDB is limited in the datatypes it accepts, Cerami was built to easily create unique columns that can be translated back into one of the types required by DynamoDB.
 
-All :doc:`DynamoDataType <../api/datatypes/base_datatype>` objects include a :doc:`Mapper <../api/mappers/index>` object whose purpose is to transform a models column to and from the format supported by DynamoDB. For example, DynamoDB supports numbers as columns, but these values must be converted to strings before submitted to the database. Looking at the `NumberMapper`:
+All :doc:`DynamoDataType <../api/datatypes/base_datatype>` objects include a :doc:`Mapper <../api/mappers/index>` object whose purpose is to transform a models column to and from the format supported by DynamoDB. For example, DynamoDB supports numbers as columns, but these values must be converted to strings before submitted to the database. Looking at the `IntegerMapper`:
 
 .. code-block:: python
 
-    class NumberMapper(BaseDatatypeMapper):
+    class IntegerMapper(BaseDatatypeMapper):
         def resolve(self, value):
             """convert the number into a string"""
             return str(value)
@@ -34,7 +34,7 @@ We want to store uuids in one of our tables. In order to do so, a new mapper mus
             """convert the uuid into a string"""
             return str(value)
 
-        def resolve(self, value):
+        def parse(self, value):
             """convert the string back into a uuid"""
             return UUID(value)
 
@@ -84,9 +84,6 @@ We can create a custom mapper class which does this for us.
     class EmailMapper(BaseDatatypeMapper):
         def resolve(self, value):
             return value.lower().strip();
-
-        def parse(self, value):
-            return value.lower().strip()
 
 .. code-block:: python
 

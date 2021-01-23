@@ -7,5 +7,6 @@ from .dict_mapper import DictMapper
 from .list_mapper import ListMapper
 from .uniform_list_mapper import UniformListMapper
 from .byte_mapper import ByteMapper
-from .number_mapper import NumberMapper
+from .integer_mapper import IntegerMapper
+from .decimal_mapper import DecimalMapper
 from .datetime_mapper import DatetimeMapper

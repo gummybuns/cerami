@@ -29,26 +29,26 @@ I have boto3 and aws credentials set up
 
     @primary_key('name', 'artist')
     class Album(db.Model):
-        __tablename__ = "Albums"
+	__tablename__ = "Albums"
 
-        name = String()
-        artist = String()
-        songs = Set(String())
-        released_date = Datetime()
+	name = String()
+	artist = String()
+	songs = Set(String())
+	released_date = Datetime()
 
     # Some Query Examples
     Album.scan \
-        .filter(Album.released_date.begins_with("1996")) \
-        .execute()
+	.filter(Album.released_date.begins_with("1996")) \
+	.execute()
 
     Album.query \
-        .key(Album.name == "The Black Album") \
-        .execute()
+	.key(Album.name == "The Black Album") \
+	.execute()
 
     Album.get \
-        .key(Album.name == "Reasonable Doubt") \
-        .key(Album.artist == "Jay-Z") \
-        .execute()
+	.key(Album.name == "Reasonable Doubt") \
+	.key(Album.artist == "Jay-Z") \
+	.execute()
 
 
 I have never used boto3 or dynamodb before
@@ -106,31 +106,31 @@ Creating a DynamoDB Table
     # Create a table with the primary partition key being an _id
     # Use the title as a sort key
     dynamodb.create_table(
-        TableName='Books',
-        KeySchema=[
-            {
-                'AttributeName': '_id',
-                'KeyType': 'HASH'  #Partition key
-            },
-            {
-                'AttributeName': 'title',
-                'KeyType': 'RANGE'  #Sort key
-            }
-        ],
-        AttributeDefinitions=[
-            {
-                'AttributeName': '_id',
-                'AttributeType': 'S'
-            },
-            {
-                'AttributeName': 'title',
-                'AttributeType': 'S'
-            },
-        ],
-        ProvisionedThroughput={
-            'ReadCapacityUnits': 10,
-            'WriteCapacityUnits': 10
-        }
+	TableName='Books',
+	KeySchema=[
+	    {
+		'AttributeName': '_id',
+		'KeyType': 'HASH'  #Partition key
+	    },
+	    {
+		'AttributeName': 'title',
+		'KeyType': 'RANGE'  #Sort key
+	    }
+	],
+	AttributeDefinitions=[
+	    {
+		'AttributeName': '_id',
+		'AttributeType': 'S'
+	    },
+	    {
+		'AttributeName': 'title',
+		'AttributeType': 'S'
+	    },
+	],
+	ProvisionedThroughput={
+	    'ReadCapacityUnits': 10,
+	    'WriteCapacityUnits': 10
+	}
     )
 
 
@@ -153,9 +153,10 @@ Using Cerami
 
     @primary_key('name', 'artist')
     class Album(db.Model):
-        __tablename__ = "Albums"
+	__tablename__ = "Albums"
 
-        name = String()
-        artist = String()
-        songs = Set(String())
-        released_date = Datetime()
+	name = String()
+	artist = String()
+	songs = Set(String())
+	released_date = Datetime()
+
