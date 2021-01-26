@@ -106,22 +106,14 @@ Creating a DynamoDB Table
     # Create a table with the primary partition key being an _id
     # Use the title as a sort key
     dynamodb.create_table(
-        TableName='Books',
+        TableName='Albums',
         KeySchema=[
             {
-                'AttributeName': '_id',
+                'AttributeName': 'title',
                 'KeyType': 'HASH'  #Partition key
             },
-            {
-                'AttributeName': 'title',
-                'KeyType': 'RANGE'  #Sort key
-            }
         ],
         AttributeDefinitions=[
-            {
-                'AttributeName': '_id',
-                'AttributeType': 'S'
-            },
             {
                 'AttributeName': 'title',
                 'AttributeType': 'S'
