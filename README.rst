@@ -111,19 +111,25 @@ Creating a DynamoDB Table
 
     dynamodb = boto3.client('dynamodb', endpoint_url="http://localhost:8000")
 
-    # Create a table with the primary partition key being an _id
-    # Use the title as a sort key
     dynamodb.create_table(
         TableName='Albums',
         KeySchema=[
             {
-                'AttributeName': 'title',
+                'AttributeName': 'name',
                 'KeyType': 'HASH'  #Partition key
+            },
+            {
+                'AttributeName': 'artist',
+                'KeyType': 'Range', # Sort key
             },
         ],
         AttributeDefinitions=[
             {
-                'AttributeName': 'title',
+                'AttributeName': 'name',
+                'AttributeType': 'S'
+            },
+            {
+                'AttributeName': 'artist',
                 'AttributeType': 'S'
             },
         ],
