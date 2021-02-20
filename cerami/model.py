@@ -239,5 +239,5 @@ class Model(object, metaclass=ModelMeta):
             attr = self._get_full_attribute(column_name)
             if (not column in self._primary_key
                 and (attr.initialized or attr._changed)):
-                updater.set(column, attr.value)
+                updater = updater.set(column, attr.value)
         return updater.execute()
