@@ -1,18 +1,22 @@
 from .base_datatype import DynamoDataType
-from .mapper import NumberMapper
+from .mapper import IntegerMapper
 from .expression import ArithmeticExpression
 
 class BaseNumber(DynamoDataType):
-    """A Base class for all Number datatypes"""
+    """A Base class for all Number datatypes
+    
+    By default, numbers are mapped to integers. In order to including floating point
+    precision, change the mapper_cls to the DecimalMapper
+    """
 
-    def __init__(self, mapper_cls=NumberMapper, default=None, column_name=""):
+    def __init__(self, mapper_cls=IntegerMapper, default=None, column_name=""):
         """constructor for the BaseNumber
 
         Parameters:
             default: a default value for the column. It can be a value or function
             column_name: a string defining the name of the column on the table
             mapper_cls: A mapper class to manipulate data to/from dynamodb.
-                Defaults to the NumberMapper
+                Defaults to the IntegerMapper. Use the DecimalMapper for floats
         """
         super(BaseNumber, self).__init__(
             mapper_cls=mapper_cls,

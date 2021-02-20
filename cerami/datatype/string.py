@@ -1,5 +1,5 @@
 from .base_string import BaseString
 
 class String(BaseString):
-    """An alias for BaseString"""
+    """A class to represent any primitive String"""
     pass

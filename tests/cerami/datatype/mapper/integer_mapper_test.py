@@ -1,11 +1,11 @@
 from tests.helpers.testbase import TestBase
 from cerami.datatype import Number
-from cerami.datatype.mapper import NumberMapper
+from cerami.datatype.mapper import IntegerMapper
 
-class TestNumberMapper(TestBase):
+class TestIntegerMapper(TestBase):
     def setUp(self):
         self.dt = Number()
-        self.mapper = NumberMapper(self.dt)
+        self.mapper = IntegerMapper(self.dt)
 
     def test_resolve(self):
         """it returns the value as a string"""

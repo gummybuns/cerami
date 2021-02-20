@@ -10,9 +10,13 @@ StringMapper
 ------------
 .. autoclass:: cerami.datatype.mapper.StringMapper
 
-NumberMapper
-------------
-.. autoclass:: cerami.datatype.mapper.NumberMapper
+IntegerMapper
+-------------
+.. autoclass:: cerami.datatype.mapper.IntegerMapper
+
+DecimalMapper
+-------------
+.. autoclass:: cerami.datatype.mapper.DecimalMapper
 
 BooleanMapper
 -------------

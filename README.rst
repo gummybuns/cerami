@@ -1,5 +1,13 @@
-Quick Start
-===============
+Cerami
+======
+Cerami is a python library that hopefully provides some sanity to boto3's DynamoDB client. Its intended use is as a library to help define table data through the creation of models and create sane, readable, and reproducable DynamoDB requests.
+
+Please read the `Full Documentation`_
+
+.. _Full Documentation: https://cerami.readthedocs.io/en/latest/ 
+
+Quickstart
+==========
 
 Install
 -------
@@ -29,26 +37,26 @@ I have boto3 and aws credentials set up
 
     @primary_key('name', 'artist')
     class Album(db.Model):
-        __tablename__ = "Albums"
+	__tablename__ = "Albums"
 
-        name = String()
-        artist = String()
-        songs = Set(String())
-        released_date = Datetime()
+	name = String()
+	artist = String()
+	songs = Set(String())
+	released_date = Datetime()
 
     # Some Query Examples
     Album.scan \
-        .filter(Album.released_date.begins_with("1996")) \
-        .execute()
+	.filter(Album.released_date.begins_with("1996")) \
+	.execute()
 
     Album.query \
-        .key(Album.name == "The Black Album") \
-        .execute()
+	.key(Album.name == "The Black Album") \
+	.execute()
 
     Album.get \
-        .key(Album.name == "Reasonable Doubt") \
-        .key(Album.artist == "Jay-Z") \
-        .execute()
+	.key(Album.name == "Reasonable Doubt") \
+	.key(Album.artist == "Jay-Z") \
+	.execute()
 
 
 I have never used boto3 or dynamodb before
@@ -151,9 +159,10 @@ Using Cerami
 
     @primary_key('name', 'artist')
     class Album(db.Model):
-        __tablename__ = "Albums"
+	__tablename__ = "Albums"
 
-        name = String()
-        artist = String()
-        songs = Set(String())
-        released_date = Datetime()
+	name = String()
+	artist = String()
+	songs = Set(String())
+	released_date = Datetime()
+
