@@ -230,14 +230,15 @@ class Model(object, metaclass=ModelMeta):
         Returns:
             a SaveResponse
         """
+        primary_key_names = [key.column_name for key in self._primary_key]
         updater = self.__class__.update
         for column in self._primary_key:
             column_name = column.column_name
-            updater.key(column == getattr(self, column_name))
+            updater = updater.key(column == getattr(self, column_name))
         for column in self._columns:
             column_name = column.column_name
             attr = self._get_full_attribute(column_name)
-            if (not column in self._primary_key
+            if (not column_name in primary_key_names
                 and (attr.initialized or attr._changed)):
                 updater = updater.set(column, attr.value)
         return updater.execute()
