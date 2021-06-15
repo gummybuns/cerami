@@ -29,5 +29,5 @@ class ModelReconstructor(BaseReconstructor):
                 val = item_dict[column.column_name]
             except KeyError:
                 continue
-            data[column.column_name] = column.mapper.reconstruct(val)
+            data[column.column_name] = column.translator.to_cerami(val)
         return self.model_cls(**data)

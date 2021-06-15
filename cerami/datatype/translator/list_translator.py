@@ -1,27 +1,27 @@
-from .base_datatype_mapper import BaseDatatypeMapper
+from .base_datatype_translator import BaseDatatypeTranslator
 
-class ListMapper(BaseDatatypeMapper):
-    """A Mapper class for Lists
+class ListTranslator(BaseDatatypeTranslator):
+    """A Translator class for Lists
 
-    This mapper is typically used with the ``List`` datatype. DynamoDB requires all items
-    of a List to also match the DynamoDB format when making requests. This class uses a
-    ``MapGuesser`` and a ``ParseGuesser`` to decide how to resolve and reconstruct each
+    This translator is typically used with the ``List`` datatype. DynamoDB requires all
+    items of a List to also match the DynamoDB format when making requests. This class
+    uses a ``MapGuesser`` and a ``ParseGuesser`` to decide how to format each
     key/value pair
 
     Attributes:
-        datatype: a DynamoDataType object the mapper is used with
+        datatype: a DynamoDataType object the translator is used with
         condition_type: The condition_type of the datatype
         map_guesser: a MapGuesser object, typically associated with the datatype
         parse_guesser: A ParseGuesser object, typically associated with the datatype
 
     For example::
 
-        mapper = ListMapper(
+        translator = ListTranslator(
             DynamoDataType(condition_type="L"),
             DefaultMapGuesser(),
             DefaultParseGuesser())
 
-        mapper.map(["test@test.com", 123])
+        translator.to_dynamodb(["test@test.com", 123])
         {
             "L": [
                 {
@@ -33,23 +33,23 @@ class ListMapper(BaseDatatypeMapper):
             ]
         }
 
-        mapper.reconstruct({'L': [{'S': 'test@test.com'}, {'N': '123'}]})
+        translator.to_cerami({'L': [{'S': 'test@test.com'}, {'N': '123'}]})
         ["test@test.com", 123]
     """
 
     def __init__(self, datatype, map_guesser, parse_guesser):
-        """constructor for the ListMapper
+        """constructor for the ListTranslator
 
         Parameters:
-           datatype: a DynamoDataType object the mapper is used with
+           datatype: a DynamoDataType object the translator is used with
            map_guesser: a MapGuesser object, typically associated with the datatype
            parse_guesser: A ParseGuesser object, typically associated with the datatype
         """
-        super(ListMapper, self).__init__(datatype)
+        super(ListTranslator, self).__init__(datatype)
         self.map_guesser = map_guesser
         self.parse_guesser = parse_guesser
 
-    def resolve(self, value):
+    def format_for_dynamodb(self, value):
         """convert the value into a DynamoDB formatted dictionary
 
         Parameters:
@@ -61,10 +61,10 @@ class ListMapper(BaseDatatypeMapper):
         res = []
         for idx, val in enumerate(value):
             guessed_dt = self.map_guesser.guess(idx, val)
-            res.append(guessed_dt.mapper.resolve(val))
+            res.append(guessed_dt.translator.to_dynamodb(val))
         return res
 
-    def parse(self, value):
+    def format_for_cerami(self, value):
         """convert the DynamoDB formatted dict into a list
 
         Parameters:
@@ -77,5 +77,5 @@ class ListMapper(BaseDatatypeMapper):
         res = []
         for idx, val in enumerate(value):
             guessed_dt = self.parse_guesser.guess(idx, val)
-            res.append(guessed_dt.mapper.reconstruct(val))
+            res.append(guessed_dt.translator.to_cerami(val))
         return res

@@ -5,9 +5,9 @@ from .string import String
 from .set import Set
 from .base_datatype import DynamoDataType
 from .expression import ListAppendExpression
-from .mapper import (
-    DictMapper,
-    ListMapper)
+from .translator import (
+    DictTranslator,
+    ListTranslator)
 
 class DefaultMapGuesser(object):
     """A class to guess what datatype to send to DynamoDB based the attribute value
@@ -126,7 +126,7 @@ class Map(DynamoDataType):
             column_name=column_name)
         self.map_guesser = map_guesser or DefaultMapGuesser()
         self.parse_guesser = parse_guesser or DefaultParseGuesser()
-        self.mapper = DictMapper(self, self.map_guesser, self.parse_guesser)
+        self.translator = DictTranslator(self, self.map_guesser, self.parse_guesser)
 
     def key(self, datatype, key):
         """build a duplicate datatype with the column_name using a dot notiation
@@ -180,7 +180,7 @@ class List(DynamoDataType):
             column_name=column_name)
         self.map_guesser = map_guesser or DefaultMapGuesser()
         self.parse_guesser = parse_guesser or DefaultParseGuesser()
-        self.mapper = ListMapper(self, self.map_guesser, self.parse_guesser)
+        self.translator = ListTranslator(self, self.map_guesser, self.parse_guesser)
 
     def append(self, array):
         """Build an expression to add the array to the end of the existing column data

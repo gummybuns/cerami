@@ -83,12 +83,12 @@ class BaseExpression(object):
             value_name=self.expression_attribute_value_name)
 
     def attribute_map(self):
-        """return the value and its condition_type by calling a DatatypeMapper
+        """return the value and its condition_type by calling a Datatype Translator
 
         This is only used by Keyable right now. But i think this should be deprecated
         because its confusing and doesnt really add any value
         """
-        return self.datatype.mapper.map(self.value)
+        return self.datatype.translator.to_dynamodb(self.value)
 
     def value_dict(self):
         """return the expected dict for expression-attribute-values
@@ -106,7 +106,7 @@ class BaseExpression(object):
             expression.value_dict() # <== {":_name_abc12":{"S": "Mom"}}
         """
         res = {}
-        res[self.expression_attribute_value_name] = self.datatype.mapper.map(self.value)
+        res[self.expression_attribute_value_name] = self.datatype.translator.to_dynamodb(self.value)
         return res
 
     def _generate_variable_name(self, column_name):

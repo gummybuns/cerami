@@ -11,13 +11,13 @@ class DynamoDataType(object):
     all of the different child classes.
     """
 
-    def __init__(self, default=None, column_name="", condition_type="", mapper_cls=None):
+    def __init__(self, default=None, column_name="", condition_type="", translator_cls=None):
         """Constructor for DynamoDataType
 
         Parameters:
             default: a default value for the column. It can be a value or function
             column_name: a string defining the name of the column on the table
-            mapper_cls: A Mapper class used to interpret/parse data to/from DynamoDB
+            translator_cls: A Translator class used to translate data to/from DynamoDB
             condition_type: A string representing one of the types defined by
                 DynamoDB for how the data is stored in the database. While DynamoDB
                 supports different datatypes, they are all represented by the following:
@@ -39,7 +39,7 @@ class DynamoDataType(object):
         self.default = default
         self.set_column_name(column_name)
         self.condition_type = condition_type
-        self.mapper = mapper_cls(self) if mapper_cls else None
+        self.translator = translator_cls(self) if translator_cls else None
 
     def __eq__(self, value):
         return EqualityExpression('=', self, value)

@@ -27,10 +27,10 @@ class TestBaseExpression(TestBase):
         assert self.expression.__str__() == "#__testcol[1] = mocked"
 
     def test_attribute_map(self):
-        """it calls the datatype mapper with the value"""
+        """it calls the datatype translator with the value"""
         self.expression.datatype = Mock()
         self.expression.attribute_map()
-        self.expression.datatype.mapper.map.assert_called_with('test')
+        self.expression.datatype.translator.to_dynamodb.assert_called_with('test')
 
     def test_value_dict(self):
         """it returns the dict assigning the condition_type as the

@@ -1,60 +1,60 @@
 from mock import Mock
 from tests.helpers.testbase import TestBase
 from cerami.datatype import String, List
-from cerami.datatype.mapper import (
-    ListMapper)
+from cerami.datatype.translator import (
+    ListTranslator)
 
-class TestListMapper(TestBase):
+class TestListTranslator(TestBase):
     def setUp(self):
         self.mocked_map_guesser = Mock()
         self.mocked_parse_guesser = Mock()
         self.dt = List()
-        self.mapper = ListMapper(
+        self.translator = ListTranslator(
             self.dt,
             self.mocked_map_guesser,
             self.mocked_parse_guesser)
 
     def test__init__(self):
         """it sets guesser"""
-        assert self.mapper.map_guesser == self.mocked_map_guesser
-        assert self.mapper.parse_guesser == self.mocked_parse_guesser
+        assert self.translator.map_guesser == self.mocked_map_guesser
+        assert self.translator.parse_guesser == self.mocked_parse_guesser
 
-    def test_resolve(self):
+    def test_format_for_dynamodb(self):
         """it uses guesser to find the correct datatype
-        based on the value and calls map for that datatype
+        based on the value and calls to_dynamodb for that datatype
         """
         mocked_dt = Mock()
-        mocked_dt.mapper.resolve.return_value = "mocked"
+        mocked_dt.translator.to_dynamodb.return_value = "mocked"
         self.mocked_map_guesser.guess.return_value = mocked_dt
         val = ['test']
-        res = self.mapper.resolve(val)
+        res = self.translator.format_for_dynamodb(val)
         assert res == ['mocked']
         self.mocked_map_guesser.guess.assert_called_with(0, 'test')
-        mocked_dt.mapper.resolve.assert_called_with('test')
+        mocked_dt.translator.to_dynamodb.assert_called_with('test')
 
-    def test_map(self):
+    def test_to_dynamodb(self):
         """it uses the guesser to find the correct datatype
         and returns a dict with the mapped value
         """
         mocked_dt = Mock()
-        mocked_dt.mapper.resolve.return_value = "mocked"
+        mocked_dt.translator.to_dynamodb.return_value = "mocked"
         self.mocked_map_guesser.guess.return_value = mocked_dt
         val = ['test']
-        res = self.mapper.map(val)
+        res = self.translator.to_dynamodb(val)
         assert res == {'L': ['mocked']}
         self.mocked_map_guesser.guess.assert_called_with(0, 'test')
-        mocked_dt.mapper.resolve.assert_called_with('test')
+        mocked_dt.translator.to_dynamodb.assert_called_with('test')
 
-    def test_parse(self):
+    def test_format_for_cerami(self):
         """it uses guesser to find the correct datatype
-        based on the value and calls reconstruct for that datatype
+        based on the value and calls to_cerami for that datatype
         """
         mocked_dt = Mock()
-        mocked_dt.mapper.reconstruct.return_value = "mocked"
+        mocked_dt.translator.to_cerami.return_value = "mocked"
         self.mocked_parse_guesser.guess.return_value = mocked_dt
         value = [{'S': 'testval'}]
-        assert self.mapper.parse(value) == ['mocked']
+        assert self.translator.format_for_cerami(value) == ['mocked']
         self.mocked_parse_guesser.guess.assert_called_with(
             0,
             {'S': 'testval'})
-        mocked_dt.mapper.reconstruct.assert_called_with({'S': 'testval'})
+        mocked_dt.translator.to_cerami.assert_called_with({'S': 'testval'})

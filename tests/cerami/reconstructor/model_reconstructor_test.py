@@ -13,7 +13,7 @@ class TestModelReconstructor(TestBase):
         self.reconstructor = ModelReconstructor(self.TestModel)
 
     def test_reconstruct(self):
-        """it calls parse for each column"""
+        """it calls format_for_cerami for each column"""
         data = {'_id': {'S': '123'}, 'test': {'S': 'cool'}}
         res = self.reconstructor.reconstruct(data)
         assert isinstance(res, self.TestModel)

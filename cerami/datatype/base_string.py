@@ -2,22 +2,22 @@ from .base_datatype import DynamoDataType
 from .expression import (
     ContainsExpression,
     BeginsWithExpression)
-from .mapper import StringMapper
+from .translator import StringTranslator
 
 class BaseString(DynamoDataType):
     """A Base class for all String datatypes"""
 
-    def __init__(self, mapper_cls=StringMapper, default=None, column_name=""):
+    def __init__(self, translator_cls=StringTranslator, default=None, column_name=""):
         """constructor for the BaseString
 
         Parameters:
             default: a default value for the column. It can be a value or function
             column_name: a string defining the name of the column on the table
-            mapper_cls: A mapper class to manipulate data to/from dynamodb.
-                Defaults to the StringMapper
+            translator_cls: A translator class to manipulate data to/from dynamodb.
+                Defaults to the StringTranslator
         """
         super(BaseString, self).__init__(
-            mapper_cls=mapper_cls,
+            translator_cls=translator_cls,
             condition_type="S",
             default=default,
             column_name=column_name)

@@ -1,5 +1,5 @@
 from .base_datatype import DynamoDataType
-from .mapper import SetMapper
+from .translator import SetTranslator
 
 class Set(DynamoDataType):
     """A class to represent a Set
@@ -17,7 +17,7 @@ class Set(DynamoDataType):
     def __init__(self, datatype, column_name="", default=None):
         """constructor for the Set
 
-        The mapper and condition_type for the set is determined automatically
+        The translator and condition_type for the set is determined automatically
         by the datatype passed in.
 
         Parameters:
@@ -27,7 +27,7 @@ class Set(DynamoDataType):
         """
         super(Set, self).__init__(column_name=column_name, default=default)
         self.datatype = datatype
-        self.mapper = SetMapper(self.datatype.mapper)
+        self.translator = SetTranslator(self.datatype.translator)
         self.condition_type = self.datatype.condition_type + "S"
 
     def contains(self, value):
