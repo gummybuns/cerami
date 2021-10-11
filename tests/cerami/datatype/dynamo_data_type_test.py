@@ -6,21 +6,8 @@ from cerami.datatype.expression import (
     EqualityExpression,
     InExpression,
     ListAppendExpression,
-<<<<<<< HEAD
     ArithmeticExpression,
     ContainsExpression)
-from cerami.datatype.mapper import (
-    ByteMapper,
-    StringMapper,
-    ModelMapper,
-    DictMapper,
-    ListMapper,
-    IntegerMapper,
-    DecimalMapper,
-    DatetimeMapper,
-    SetMapper)
-=======
-    ArithmeticExpression)
 from cerami.datatype.translator import (
     ByteTranslator,
     StringTranslator,
@@ -31,7 +18,6 @@ from cerami.datatype.translator import (
     DecimalTranslator,
     DatetimeTranslator,
     SetTranslator)
->>>>>>> 4062ad2048c3f83058e42312cecd38c67c479d53
 from cerami.datatype import (
     DynamoDataType,
     BaseString,

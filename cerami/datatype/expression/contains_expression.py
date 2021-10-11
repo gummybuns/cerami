@@ -53,7 +53,7 @@ class ContainsExpression(BaseExpression):
         """
         if self.is_set:
             res = {}
-            res[self.expression_attribute_value_name] = self.datatype.datatype.mapper.map(self.value)
+            res[self.expression_attribute_value_name] = self.datatype.datatype.translator.to_dynamodb(self.value)
             return res
         else:
             return super(ContainsExpression, self).value_dict()
