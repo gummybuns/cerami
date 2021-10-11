@@ -6,7 +6,8 @@ from cerami.datatype.expression import (
     EqualityExpression,
     InExpression,
     ListAppendExpression,
-    ArithmeticExpression)
+    ArithmeticExpression,
+    ContainsExpression)
 from cerami.datatype.mapper import (
     ByteMapper,
     StringMapper,
@@ -209,6 +210,12 @@ class TestSet(TestBase):
 
     def test_mapper(self):
         assert isinstance(self.dt.mapper, SetMapper)
+
+    def test_contains(self):
+        """it passes is_true to the ContainsExpression constructor"""
+        expr = self.dt.contains('test')
+        assert isinstance(expr, ContainsExpression)
+        assert expr.is_set == True
 
 class TestDynamoDataType(TestBase):
     def setUp(self):

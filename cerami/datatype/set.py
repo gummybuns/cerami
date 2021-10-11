@@ -1,4 +1,5 @@
 from .base_datatype import DynamoDataType
+from .expression import ContainsExpression
 from .mapper import SetMapper
 
 class Set(DynamoDataType):
@@ -45,4 +46,4 @@ class Set(DynamoDataType):
 
             Person.scan.filter(Painting.colors.contains("red"))
         """
-        return ContainsExpression(self, value)
+        return ContainsExpression(self, value, is_set=True)
