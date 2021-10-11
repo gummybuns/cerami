@@ -1,23 +1,23 @@
-from .base_datatype_mapper import BaseDatatypeMapper
+from .base_datatype_translator import BaseDatatypeTranslator
 
-class ByteMapper(BaseDatatypeMapper):
-    """A Mapper class for byte encoding data
+class ByteTranslator(BaseDatatypeTranslator):
+    """A Translator class for byte encoding data
 
-    This mapper is typically used with the ByteBuffer datatype. This class will
-    automatically encode the value passed for both mapping and reconstructing. So, even
+    This translator  is typically used with the ByteBuffer datatype. This class will
+    automatically encode the value passed.
 
     For example::
 
-         mapper = ByteMapper(DynamoDataType(condition_type="B"))
+         translator  = ByteTranslator(DynamoDataType(condition_type="B"))
          # You can pass a string if you wanted to for example
-         mapper.map("hello world")
+         translator.to_dynamodb("hello world")
          {'B': b'hello world'}
 
          # But the string will not be returned when reconstructing
-         mapper.reconstruct({'B': b'hello world'})
+         translator.to_cerami({'B': b'hello world'})
          b'helo world'
     """
-    def resolve(self, value):
+    def format_for_dynamodb(self, value):
         """UTF-8 encode the value
 
         Parameters:
@@ -29,7 +29,7 @@ class ByteMapper(BaseDatatypeMapper):
         """
         return self._encode(value)
 
-    def parse(self, value):
+    def format_for_cerami(self, value):
         """UTF-8 encode the value
 
         Parameters:

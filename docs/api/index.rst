@@ -10,7 +10,7 @@ The section will contain documentation about all Cerami classes, modules, functi
     model
     datatypes/index
     expressions/index
-    mappers/index
+    translators/index
     requests/index
     search_attributes/index
     reconstructors/index

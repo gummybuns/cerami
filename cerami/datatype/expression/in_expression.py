@@ -62,6 +62,6 @@ class InExpression(BaseExpression):
         res = {}
         for v in self.value:
             value_name = self._generate_variable_name(column_name_safe)
-            value_mapped = self.datatype.mapper.map(v)
+            value_mapped = self.datatype.translator.to_dynamodb(v)
             res[value_name] = value_mapped
         return res

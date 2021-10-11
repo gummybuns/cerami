@@ -192,7 +192,7 @@ class Model(object, metaclass=ModelMeta):
         for column in self._columns:
             name = column.column_name
             attr = self._get_full_attribute(name)
-            item[name] = column.mapper.map(attr.value)
+            item[name] = column.translator.to_dynamodb(attr.value)
         return item
 
     def delete(self):

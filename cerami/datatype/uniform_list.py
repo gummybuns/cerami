@@ -1,6 +1,6 @@
 from copy import deepcopy
 from .dynamic import List
-from .mapper import UniformListMapper
+from .translator import UniformListTranslator
 
 class UniformList(List):
     """A class to represent Lists of entirely the same datatype
@@ -19,7 +19,7 @@ class UniformList(List):
         """
         super(UniformList, self).__init__(default=default, column_name=column_name)
         self.datatype = datatype
-        self.mapper = UniformListMapper(self.datatype.mapper)
+        self.translator = UniformListTranslator(self.datatype.translator)
 
     def index(self, idx):
         """build a duplicate datatype with the _index set to idx

@@ -1,6 +1,6 @@
 from copy import copy
 from .base_datatype import DynamoDataType
-from .mapper import ModelMapper
+from .translator import ModelTranslator
 
 class ModelMap(DynamoDataType):
     """A class to represent a nested model as a Map
@@ -12,18 +12,18 @@ class ModelMap(DynamoDataType):
         Parent.scan.filter(Parent.child.name == 'Zac')
     """
 
-    def __init__(self, model_cls, mapper_cls=ModelMapper, column_name=""):
+    def __init__(self, model_cls, translator_cls=ModelTranslator, column_name=""):
         """constructor for ModelMap
 
         Parameters:
             model_cls: the class of the nested Model being used
-            mapper_cls: A mapper class to manipulate data to/from dynamodb.
-                Defaults to the ModelMapper
+            translator_cls: A Translator class to manipulate data to/from dynamodb.
+                Defaults to the ModelTranslator
             column_name: a string defining the name of the column on the table
         """
         super(ModelMap, self).__init__(
             condition_type="M",
-            mapper_cls=mapper_cls,
+            translator_cls=translator_cls,
             column_name=column_name)
         self.model_cls = model_cls
         for column in self.model_cls._columns:

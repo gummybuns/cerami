@@ -1,27 +1,27 @@
-from .base_datatype_mapper import BaseDatatypeMapper
+from .base_datatype_translator import BaseDatatypeTranslator
 
-class DictMapper(BaseDatatypeMapper):
-    """A Mapper class for Dicts
+class DictTranslator(BaseDatatypeTranslator):
+    """A Translator class for Dicts
 
-    This mapper is typically used with the ``Map`` datatype. DynamoDB requires all nested
+    This translator is typically used with the ``Map`` datatype. DynamoDB requires all nested
     values to also match their DynamoDB format when making requests. This class uses
     a ``MapGuesser`` and ``ParseGuesser`` to decide how to resolve and 
     reconstruct each key/value pair.
 
     Attributes:
-        datatype: a DynamoDataType object the mapper is used with
+        datatype: a DynamoDataType object the translator  is used with
         condition_type: The condition_type of the datatype
         map_guesser: a MapGuesser object, typically associated with the datatype
         parse_guesser: A ParseGuesser object, typically associated with the datatype
 
     For example::
 
-        mapper = DictMapper(
+        translator  = DictTranslator(
             DynamoDataType(condition_type="M"),
             DefaultMapGuesser(),
             DefaultParseGuesser())
 
-        mapper.map({
+        translator.to_dynamodb({
             "email": "test@test.com",
             "number": 123,
         })
@@ -37,24 +37,24 @@ class DictMapper(BaseDatatypeMapper):
         }
 
 
-        mapper.reconstruct({"M": {"email": {"S": "test@test.com"}}})
+        translator.to_cerami({"M": {"email": {"S": "test@test.com"}}})
         {
             "email": "test@test.com",
         }
     """
     def __init__(self, datatype, map_guesser, parse_guesser):
-        """constructor for the DictMapper
+        """constructor for the DictTranslator
 
         Parameters:
-           datatype: a DynamoDataType object the mapper is used with
+           datatype: a DynamoDataType object the translator is used with
            map_guesser: a MapGuesser object, typically associated with the datatype
            parse_guesser: A ParseGuesser object, typically associated with the datatype
         """
-        super(DictMapper, self).__init__(datatype)
+        super(DictTranslator, self).__init__(datatype)
         self.map_guesser = map_guesser
         self.parse_guesser = parse_guesser
 
-    def resolve(self, value):
+    def format_for_dynamodb(self, value):
         """convert the value into a DynamoDB formatted dictionary
 
         Use the MapGuesser to find the datatype Use the datatype's mapper to resolve
@@ -69,10 +69,10 @@ class DictMapper(BaseDatatypeMapper):
         res = {}
         for key, val in value.items():
             guessed_dt = self.map_guesser.guess(key, val)
-            res[key] = guessed_dt.mapper.map(val)
+            res[key] = guessed_dt.translator.to_dynamodb(val)
         return res
 
-    def parse(self, value):
+    def format_for_cerami(self, value):
         """convert a DynamoDB formatted dict into a single value
 
         Use the ParseGuesser to find the datatype. Use the datatype's reconstructor to
@@ -88,5 +88,5 @@ class DictMapper(BaseDatatypeMapper):
         res = {}
         for key, nested_dict in value.items():
             guessed_dt = self.parse_guesser.guess(key, nested_dict)
-            res[key] = guessed_dt.mapper.reconstruct(nested_dict)
+            res[key] = guessed_dt.translator.to_cerami(nested_dict)
         return res

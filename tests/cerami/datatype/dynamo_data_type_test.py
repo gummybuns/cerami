@@ -6,6 +6,7 @@ from cerami.datatype.expression import (
     EqualityExpression,
     InExpression,
     ListAppendExpression,
+<<<<<<< HEAD
     ArithmeticExpression,
     ContainsExpression)
 from cerami.datatype.mapper import (
@@ -18,6 +19,19 @@ from cerami.datatype.mapper import (
     DecimalMapper,
     DatetimeMapper,
     SetMapper)
+=======
+    ArithmeticExpression)
+from cerami.datatype.translator import (
+    ByteTranslator,
+    StringTranslator,
+    ModelTranslator,
+    DictTranslator,
+    ListTranslator,
+    IntegerTranslator,
+    DecimalTranslator,
+    DatetimeTranslator,
+    SetTranslator)
+>>>>>>> 4062ad2048c3f83058e42312cecd38c67c479d53
 from cerami.datatype import (
     DynamoDataType,
     BaseString,
@@ -38,8 +52,8 @@ class TestBaseString(TestBase):
     def test_condition_type(self):
         assert self.dt.condition_type == "S"
 
-    def test_mapper(self):
-        assert isinstance(self.dt.mapper, StringMapper)
+    def test_translator(self):
+        assert isinstance(self.dt.translator, StringTranslator)
 
 class TestBaseNumber(TestBase):
     def setUp(self):
@@ -49,8 +63,8 @@ class TestBaseNumber(TestBase):
     def test_condition_type(self):
         assert self.dt.condition_type == "N"
 
-    def test_mapper(self):
-        assert isinstance(self.dt.mapper, IntegerMapper)
+    def test_translator(self):
+        assert isinstance(self.dt.translator, IntegerTranslator)
 
     def test_add(self):
         """it returns an ArithmeticExpression"""
@@ -72,8 +86,8 @@ class TestString(TestBase):
     def test_condition_type(self):
         assert self.dt.condition_type == "S"
 
-    def test_mapper(self):
-        assert isinstance(self.dt.mapper, StringMapper)
+    def test_translator(self):
+        assert isinstance(self.dt.translator, StringTranslator)
 
 class TestByteBuffer(TestBase):
     def setUp(self):
@@ -83,8 +97,8 @@ class TestByteBuffer(TestBase):
     def test_condition_type(self):
         assert self.dt.condition_type == "B"
 
-    def test_mapper(self):
-        assert isinstance(self.dt.mapper, ByteMapper)
+    def test_translator(self):
+        assert isinstance(self.dt.translator, ByteTranslator)
 
 class TestDatetime(TestBase):
     def setUp(self):
@@ -94,8 +108,8 @@ class TestDatetime(TestBase):
     def test_condition_type(self):
         assert self.dt.condition_type == "S"
 
-    def test_mapper(self):
-        assert isinstance(self.dt.mapper, DatetimeMapper)
+    def test_translator(self):
+        assert isinstance(self.dt.translator, DatetimeTranslator)
 
 class TestMap(TestBase):
     def setUp(self):
@@ -113,9 +127,9 @@ class TestMap(TestBase):
     def test_condition_type(self):
         assert self.dt.condition_type == "M"
 
-    def test_mapper(self):
-        """it is an instance of DictMapper"""
-        assert isinstance(self.dt.mapper, DictMapper)
+    def test_translator(self):
+        """it is an instance of DictTranslator"""
+        assert isinstance(self.dt.translator, DictTranslator)
 
 class TestList(TestBase):
     def setUp(self):
@@ -134,8 +148,8 @@ class TestList(TestBase):
     def test_property(self):
         assert self.dt.condition_type == "L"
 
-    def test_mapper(self):
-        assert isinstance(self.dt.mapper, ListMapper)
+    def test_translator(self):
+        assert isinstance(self.dt.translator, ListTranslator)
 
     def test_append(self):
         """it should return a ListAppendExpression"""
@@ -183,8 +197,8 @@ class TestModelMap(TestBase):
     def test_condition_type(self):
         assert self.dt.condition_type == "M"
 
-    def test_mapper(self):
-        assert isinstance(self.dt.mapper, ModelMapper)
+    def test_translator(self):
+        assert isinstance(self.dt.translator, ModelTranslator)
 
     def set_column_name(self):
         """it updates the column_name and all nested column names"""
@@ -208,8 +222,8 @@ class TestSet(TestBase):
         """it adds an S to the datatype's condition_type"""
         assert self.dt.condition_type == "SS"
 
-    def test_mapper(self):
-        assert isinstance(self.dt.mapper, SetMapper)
+    def test_translator(self):
+        assert isinstance(self.dt.translator, SetTranslator)
 
     def test_contains(self):
         """it passes is_true to the ContainsExpression constructor"""
@@ -221,7 +235,7 @@ class TestDynamoDataType(TestBase):
     def setUp(self):
         super(TestDynamoDataType, self).setUp()
         self.dt = DynamoDataType(column_name="test")
-        self.dt.mapper = StringMapper(self.dt)
+        self.dt.translator = StringTranslator(self.dt)
         self.dt.condition_type = "S"
 
     def test__eq__(self):
