@@ -30,6 +30,13 @@ InExpression
     :inherited-members:
     :no-undoc-members:
 
+BetweenExpression
+-----------------
+.. autoclass:: cerami.datatype.expression.BetweenExpression
+    :members:
+    :inherited-members:
+    :no-undoc-members:
+
 ListAppendExpression
 --------------------
 .. autoclass:: cerami.datatype.expression.ListAppendExpression

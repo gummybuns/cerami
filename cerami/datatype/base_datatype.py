@@ -1,6 +1,7 @@
 from .expression import (
     EqualityExpression,
-    InExpression)
+    InExpression,
+    BetweenExpression)
 
 class DynamoDataType(object):
     """Abstract class for all DataTypes
@@ -58,6 +59,25 @@ class DynamoDataType(object):
 
     def __ge__(self, value):
         return EqualityExpression('>=', self, value)
+
+    def between(self, greater_than, less_than):
+        """Build a BetweenExpression
+
+        BetweenExpression can be used with the filter() on the model or as a
+        KeyConditionExpression on the sort key of a query
+
+        Parameters:
+            greater_than: a value that the query is greater than or equal to
+            less_than: a value that the query is less than or equal to
+
+        Returns:
+            A BetweenExpression
+
+        For example::
+
+            Person.scan.filter(Person.age.between(10, 20))
+        """
+        return BetweenExpression(self, greater_than, less_than)
 
     def in_(self, *values):
         """Build an InExpression
